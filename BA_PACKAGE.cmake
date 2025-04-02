@@ -19,10 +19,6 @@ FIND_PACKAGE(CMLIB COMPONENTS CMUTIL CMDEF)
 # NO_DEBUG - use release, not debug version of the package (can be used if release and debug
 # variant are equal)
 #
-# PLATFORM_STRING_MODE - mode of platform string construction (platform string represents
-# id of the target platform for which we build...).
-#   - "aby_machine" - inform packager we use package that is not bound to the target architecture.
-#
 # OUTPUT_PATH_VAR - name of the variable where the absolute path of the package root will be stored. 
 #
 # <function>(
@@ -37,7 +33,6 @@ FIND_PACKAGE(CMLIB COMPONENTS CMUTIL CMDEF)
 FUNCTION(BA_PACKAGE_LIBRARY package_name version_tag)
     CMLIB_PARSE_ARGUMENTS(
         ONE_VALUE
-            PLATFORM_STRING_MODE
             OUTPUT_PATH_VAR
         OPTIONS
             CACHE_ONLY
@@ -52,7 +47,6 @@ FUNCTION(BA_PACKAGE_LIBRARY package_name version_tag)
     ENDIF()
 
     _BRINGAUTO_PACKAGE(${package_name} ${version_tag} "lib" "${suffix}-dev" output_var
-        PLATFORM_STRING_MODE ${__PLATFORM_STRING_MODE}
         CACHE_ONLY           ${__CACHE_ONLY}
         NO_DEBUG             ${__NO_DEBUG}
     )
