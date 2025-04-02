@@ -24,7 +24,7 @@ FIND_PACKAGE(CMLIB
 #
 # Otherwise the curl has a shared library and it differs between Debug and Release
 #
-BA_PACKAGE_LIBRARY(nlohmann-json v3.10.5 PLATFORM_STRING_MODE any_machine NO_DEBUG ON)
+BA_PACKAGE_LIBRARY(nlohmann-json v3.10.5 NO_DEBUG ON)
 BA_PACKAGE_LIBRARY(curl          v7.79.1)
 
 #

@@ -19,10 +19,6 @@ FIND_PACKAGE(CMLIB COMPONENTS CMUTIL CMDEF)
 # NO_DEBUG - use release, not debug version of the package (can be used if release and debug
 # variant are equal)
 #
-# PLATFORM_STRING_MODE - mode of platform string construction (platform string represents
-# id of the target platform for which we build...).
-#   - "aby_machine" - inform packager we use package that is not bound to the target architecture.
-#
 # OUTPUT_PATH_VAR - name of the variable where the absolute path of the package root will be stored. 
 #
 # <function>(
@@ -37,7 +33,6 @@ FIND_PACKAGE(CMLIB COMPONENTS CMUTIL CMDEF)
 FUNCTION(BA_PACKAGE_LIBRARY package_name version_tag)
     CMLIB_PARSE_ARGUMENTS(
         ONE_VALUE
-            PLATFORM_STRING_MODE
             OUTPUT_PATH_VAR
         OPTIONS
             CACHE_ONLY
@@ -52,7 +47,6 @@ FUNCTION(BA_PACKAGE_LIBRARY package_name version_tag)
     ENDIF()
 
     _BRINGAUTO_PACKAGE(${package_name} ${version_tag} "lib" "${suffix}-dev" output_var
-        PLATFORM_STRING_MODE ${__PLATFORM_STRING_MODE}
         CACHE_ONLY           ${__CACHE_ONLY}
         NO_DEBUG             ${__NO_DEBUG}
     )
@@ -77,7 +71,6 @@ ENDFUNCTION()
 #   <package_name>
 #   <version_tag>
 #   [OUTPUT_PATH_VAR <output_path_var_name>]
-#   [PLATFORM_STRING_MODE {"any_machine"}]
 #   [CACHE_ONLY {ON|OFF}]
 #   [NO_DEBUG {ON|OFF}]
 # )
@@ -85,7 +78,6 @@ ENDFUNCTION()
 FUNCTION(BA_PACKAGE_EXECUTABLE package_name varsion_tag)
     CMLIB_PARSE_ARGUMENTS(
         ONE_VALUE
-            PLATFORM_STRING_MODE
             OUTPUT_PATH_VAR
         OPTIONS
             CACHE_ONLY
@@ -100,7 +92,6 @@ FUNCTION(BA_PACKAGE_EXECUTABLE package_name varsion_tag)
     ENDIF()
 
     _BRINGAUTO_PACKAGE(${package_name} ${version_tag} "" "${suffix}" output_var
-        PLATFORM_STRING_MODE ${__PLATFORM_STRING_MODE}
         CACHE_ONLY           ${__CACHE_ONLY}
         NO_DEBUG             ${__NO_DEBUG}
     )
@@ -125,15 +116,12 @@ ENDFUNCTION()
 # <function>(
 #   <package_name>
 #   <version_tag>
-#   [PLATFORM_STRING_MODE {"any_machine"}]
 #   [CACHE_ONLY {ON|OFF}]
 #   [NO_DEBUG {ON|OFF}]
 # )
 #
 FUNCTION(_BRINGAUTO_PACKAGE package_name version_tag prefix suffix output_var)
     CMLIB_PARSE_ARGUMENTS(
-        ONE_VALUE
-            PLATFORM_STRING_MODE
         OPTIONS
             CACHE_ONLY
             NO_DEBUG
@@ -141,15 +129,7 @@ FUNCTION(_BRINGAUTO_PACKAGE package_name version_tag prefix suffix output_var)
             ${ARGN}
     )
 
-    STRING(TOLOWER "${__PLATFORM_STRING_MODE}" plat_string_mode_lower)
-
-    SET(machine)
-    IF("${plat_string_mode_lower}" STREQUAL "any_machine")
-        SET(machine "any")
-    ELSE()
-        SET(machine "${CMDEF_ARCHITECTURE}")
-    ENDIF()
-
+    SET(machine               "${CMDEF_ARCHITECTURE}")
     SET(package_name_expanded "${prefix}${package_name}${suffix}")
 
     CMUTIL_PLATFORM_STRING_CONSTRUCT(
@@ -160,9 +140,10 @@ FUNCTION(_BRINGAUTO_PACKAGE package_name version_tag prefix suffix output_var)
     )
     SET(package_string "${package_name_expanded}_${version_tag}_${platform_string}.zip")
 
+    BA_PACKAGE_VARS_GET(REVISION revision_var)
     SET(git_path "${CMDEF_DISTRO_ID}/${CMDEF_DISTRO_VERSION_ID}/${machine}")
     CMLIB_STORAGE_TEMPLATE_INSTANCE( remote_file BRINGAUTO_REPOSITORY_URL_TEMPLATE
-        REVISION "master"
+        REVISION "${revision_var}"
         GIT_PATH "${git_path}"
         PACKAGE_NAME "${package_string}"
         ARCHIVE_NAME "${package_name}"

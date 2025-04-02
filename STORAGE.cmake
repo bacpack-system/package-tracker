@@ -1,5 +1,5 @@
 
-SET(BRINGAUTO_REPOSITORY_URL_TEMPLATE "https://gitlab.bringauto.com/bringauto-public/fleet-package-repository/raw/<REVISION>/<GIT_PATH>/<ARCHIVE_NAME>/<PACKAGE_NAME>"
+SET(BRINGAUTO_REPOSITORY_URL_TEMPLATE "https://gitea.bringauto.com/fleet-protocol/package-repository/media/<REVISION>/<GIT_PATH>/<ARCHIVE_NAME>/<PACKAGE_NAME>"
     CACHE STRING
     "Package template for an URI generation"
 )
