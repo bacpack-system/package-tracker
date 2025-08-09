@@ -141,12 +141,17 @@ FUNCTION(_BRINGAUTO_PACKAGE package_name version_tag prefix suffix output_var)
     SET(package_string "${package_name_expanded}_${version_tag}_${platform_string}.zip")
 
     BA_PACKAGE_VARS_GET(REVISION revision_var)
+    SET(revision_arg)
+    IF(revision_var)
+        SET(revision_arg REVISION "${revision_var}")
+    ENDIF()
     SET(git_path "${CMDEF_DISTRO_ID}/${CMDEF_DISTRO_VERSION_ID}/${machine}")
-    CMLIB_STORAGE_TEMPLATE_INSTANCE( remote_file BRINGAUTO_REPOSITORY_URL_TEMPLATE
-        REVISION "${revision_var}"
+    BA_PACKAGE_VARS_GET(URI_TEMPLATE template_var)
+    CMLIB_STORAGE_TEMPLATE_INSTANCE(remote_file template_var
+        ${revision_arg}
         GIT_PATH "${git_path}"
-        PACKAGE_NAME "${package_string}"
-        ARCHIVE_NAME "${package_name}"
+        ARCHIVE_NAME "${package_string}"
+        PACKAGE_GROUP_NAME "${package_name}"
     )
 
     STRING(TOUPPER "${package_name}" package_name_upper)

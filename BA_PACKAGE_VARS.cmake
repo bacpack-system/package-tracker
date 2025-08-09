@@ -22,6 +22,11 @@ SET(BA_PACKAGE_VARS__REVISION "master"
     "Package repository revision to use"
 )
 
+SET(BA_PACKAGE_VARS__URI_TEMPLATE "NonExistentPath"
+    CACHE INTERNAL
+    "Package repository revision to use"
+)
+
 
 
 ##

@@ -17,7 +17,7 @@ Full example: [example/]
 ## Requirements
 
 - [CMake-lib] with STORAGE component enabled. One of the storage entry must points to this repo.
-- Package repository that is complain with [BringAuto Packager] package repository structure.
+- Package Repository that is compliant with [BringAuto Packager] package repository structure.
 
 
 ## Macros
@@ -26,9 +26,41 @@ Full example: [example/]
 - `BA_PACKAGE_DEPS_IMPORTED` installs all imported linked dependencies for a given target
 - `BA_PACKAGE_DEPS_SET_TARGET_RPATH` update R/RUNPATH for a given target
 
+## Local vs Remote Package Registry
+
+There are two ways how to access the Package Registry:
+
+- Local: download it locally manually and use "file://" URI scheme to access it.
+  It is especially useful when offlie access is needed, for testing purposes
+  or for fine grant control over which revision of the Package Registry to use.
+- remote: let Package tracker download it from remote repository
+
+Details about how to configure each respective mode in [CMCONF Global Config]
+
 ## Settings
 
-- `REVISION` - git revision to use when accessing Package repository. Default: master
+Simple Settings to configure Package Tracker.
+
+Package Tracker needs to have [CMCONF] System Name set to retrieve valid confiugration.
+
+Package Tracker is intended to by configured primarily by [CMCONF Global Config].
+The Settings is an interface which isolates [CMCONF] from Package Tracker internals.
+
+Setting variables values are highly affected by [CMCONF Global Config].
+
+- `REVISION` - git revision to use when accessing Package Repository.
+  Set to [CMCONF Global Config] variable `BA_PACKAGE_URI_REVISION`.
+  It has to be set empty for "file://" URI scheme.
+- `URI_TEMPLATE` - [CMake-lib] template to construct URI to download package from Package Registry.
+   The value is instantiated in cooperation with CMCONF Global Config of Package Tracker.
+   The following variables are available for the template:
+    - `<REVISION>` - git revision to use when accessing Package Repository.
+      Taken from REVISION setting variable. Invalid for "file://" URI type. Switching revisions in local
+      Package Repository needs to be managed manually.
+    - `<GIT_PATH>` - path to Packages in the repository for a given system. Set to "${CMDEF_DISTRO_ID}/${CMDEF_DISTRO_VERSION_ID}/${CMDEF_ARCHITECTURE}",
+    - `<PACKAGE_GROUP_NAME>` - package roup name as stated in [BringAuto Packager Context] 
+    - `<ARCHIVE_NAME>` - full name of package of the Package. Set to ${package_group_name}_${version_tag}_${platform_string}.zip
+
 ```cmake
 # Set REVISION to revision_update
 BA_PACKAGE_VARS_SET(REVISION deps_update)
@@ -58,5 +90,7 @@ use `NO_DEBUG ON` in `BA_PACKAGE_LIBRARY` otherwise the conflict occure.
 
 
 [BringAuto Packager]: https://github.com/bringauto/packager
+[CMCONF Global Config]: ./doc/GlobalConfiguration.md
 [CMake-lib]: https://github.com/cmakelib/cmakelib
+[bringAuto Packger Context]: https://github.com/bacpack-system/packager/blob/master/doc/ContextStructure.md
 [example/]: example/
