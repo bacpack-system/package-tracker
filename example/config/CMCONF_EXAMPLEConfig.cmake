@@ -6,6 +6,10 @@ FIND_PACKAGE(CMLIB REQUIRED COMPONENTS CMCONF)
 
 CMCONF_INIT_SYSTEM(EXAMPLE)
 
+#
+# It can be used to statically define local Package Repository.
+# Not only by BA_POACKAGE_LOCAL_PATH ENV variable.
+#
 CMCONF_SET(BA_PACKAGE_LOCAL_USE OFF)
 CMCONF_SET(BA_PACKAGE_LOCAL_PATH "<path_to_local_repo>")
 
