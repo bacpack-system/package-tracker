@@ -3,42 +3,12 @@ FIND_PACKAGE(CMLIB REQUIRED COMPONENTS CMCONF)
 
 INCLUDE("${CMAKE_CURRENT_LIST_DIR}/helpers/BA_PACKAGE_PREREQ.cmake")
 
-
-
-#
-# Let's get variables to ensure they are defined
-# By a Global Config for their appropriate use...
-#
-CMCONF_GET(BA_PACKAGE_LOCAL_USE)
-IF(BA_PACKAGE_LOCAL_USE)
-    CMCONF_GET(BA_PACKAGE_LOCAL_PATH)
-ELSE()
-    CMCONF_GET(BA_PACKAGE_HTTP_AUTHORIZATION_HEADER)
-    CMCONF_GET(BA_PACKAGE_URI_REVISION)
-    CMCONF_GET(BA_PACKAGE_URI_TEMPLATE_REMOTE)
-ENDIF()
-
-SET(template)
-SET(revision)
-IF(DEFINED ENV{BA_PACKAGE_LOCAL_PATH})
-    IF(BA_PACKAGE_LOCAL_USE)
-        MESSAGE(WARNING "BA_PACKAGE_LOCAL_PATH ENV variable is defined and BA_PACKAGE_LOCAL_USE is ON. Using BA_PACKAGE_LOCAL_PATH ENV variable to set as Repository path")
-    ENDIF()
-    BA_PACKAGE_PREREQ_LOCAL_PATH_CHECK("$ENV{BA_PACKAGE_LOCAL_PATH}")
-    SET(template "file://$ENV{BA_PACKAGE_LOCAL_PATH}/package/<GIT_PATH>/<PACKAGE_GROUP_NAME>/<ARCHIVE_NAME>")
-    SET(revision "")
-ELSE()
-    IF(BA_PACKAGE_LOCAL_USE)
-        BA_PACKAGE_PREREQ_LOCAL_PATH_CHECK("${BA_PACKAGE_LOCAL_PATH}")
-        SET(template "file://${BA_PACKAGE_LOCAL_PATH}/package/<GIT_PATH>/<PACKAGE_GROUP_NAME>/<ARCHIVE_NAME>")
-    ELSE()
-        SET(template "${BA_PACKAGE_URI_TEMPLATE_REMOTE}")
-        SET(revision "${BA_PACKAGE_URI_REVISION}")
-    ENDIF()
-ENDIF()
-
-IF(revision AND (BA_PACKAGE_LOCAL_USE OR DEFINED ENV{BA_PACKAGE_LOCAL_PATH}))
-    MESSAGE(WARNING "Revision is defined but local repository is used.")
+SET(BA_PACKAGE_CMCONF_USE TRUE
+    CACHE BOOL
+    "Switch on for CMCONF use; off for testing purposes. Do not alter this setting unless you know what you are doing."
+)
+IF(BA_PACKAGE_CMCONF_USE)
+    BA_PACKAGE_PREREQ_CMCONF_INIT(template revision)
 ENDIF()
 
 IF(BA_PACKAGE_HTTP_AUTHORIZATION_HEADER)
