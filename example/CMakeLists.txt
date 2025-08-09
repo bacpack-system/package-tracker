@@ -17,20 +17,20 @@ FIND_PACKAGE(CMLIB
 
 #
 #
-# Lets implement  basic example on how to use BA_PACKAGE
+# Let's implement a basic example of how to use BA_PACKAGE
 # using CURL and Zlib as an example.
 #
 BA_PACKAGE_LIBRARY(zlib v1.2.11 OUTPUT_PATH_VAR ZLIB_ROOT)
 BA_PACKAGE_LIBRARY(curl v7.79.1)
 
 #
-# After package add we can use standard FIND_LIBRARY
-# as a documented by the package upstream
+# After adding the package we can use standard FIND_LIBRARY
+# as documented by the package upstream
 #
 FIND_PACKAGE(ZLIB REQUIRED)
 FIND_PACKAGE(CURL REQUIRED)
 
-# The RPATH to install path of dependencicies
+# The RPATH to the install path of dependencies
 # is updated manually....
 # 
 SET(CMAKE_INSTALL_RPATH "$ORIGIN/../lib")

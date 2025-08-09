@@ -6,7 +6,7 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 3.21)
 
 IF(NOT CMAKE_SCRIPT_MODE_FILE)
-    MESSAGE(FATAL_ERROR "Please, run list in CMake script mode!")
+    MESSAGE(FATAL_ERROR "Please, run this in CMake script mode!")
 ENDIF()
 
 SET(INVALID_VAR_TEST FALSE
@@ -18,7 +18,7 @@ INCLUDE("${CMAKE_CURRENT_LIST_DIR}/../BA_PACKAGE_VARS.cmake")
 
 ##
 #
-# It checks if the Set/Get functions set the proper variable
+# It checks whether the Set/Get functions set the proper variable
 #
 # <function> (
 # )
@@ -36,13 +36,13 @@ ENDFUNCTION()
 
 ##
 #
-# It tries to set invalid variable and omit an error
+# It tries to set an invalid variable and emit an error
 #
 # <function>(
 # )
 #
 FUNCTION(SETVAR_TEST_FAIL)
-    # Omit an fatal error
+    # Emit a fatal error
     BA_PACKAGE_VARS_SET(REVISIONBADVAR "main")
 ENDFUNCTION()
 

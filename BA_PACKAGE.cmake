@@ -2,7 +2,7 @@
 #
 # BringAuto Package script.
 #
-# Enable us to download and track dependencies build by BringAuto Packager.
+# Enable us to download and track dependencies built by BringAuto Packager.
 #
 
 FIND_PACKAGE(CMLIB COMPONENTS CMUTIL CMDEF)
@@ -14,7 +14,7 @@ FIND_PACKAGE(CMLIB COMPONENTS CMUTIL CMDEF)
 # Download, cache and populate library development package
 #
 # CACHE_ONLY - if specified no download is performed. The package
-# must be cached by previous of BA_PACKAGE_LIBRARY() without CACHE_ONLY switch.
+# must be cached by a previous call to BA_PACKAGE_LIBRARY() without CACHE_ONLY switch.
 #
 # NO_DEBUG - use release, not debug version of the package (can be used if release and debug
 # variant are equal)
@@ -75,7 +75,7 @@ ENDFUNCTION()
 #   [NO_DEBUG {ON|OFF}]
 # )
 #
-FUNCTION(BA_PACKAGE_EXECUTABLE package_name varsion_tag)
+FUNCTION(BA_PACKAGE_EXECUTABLE package_name version_tag)
     CMLIB_PARSE_ARGUMENTS(
         ONE_VALUE
             OUTPUT_PATH_VAR
@@ -174,7 +174,7 @@ FUNCTION(_BRINGAUTO_PACKAGE package_name version_tag prefix suffix output_var)
             TRY_REGENERATE ON
         )
         IF(NOT cache_path)
-            MESSAGE(FATAL_ERROR "Package does not found: ${package_string}")
+            MESSAGE(FATAL_ERROR "Package not found: ${package_string}")
         ENDIF()
     ELSE()
         _BA_PACKAGE_MESSAGE(REGISTER ${package_name})

@@ -1,6 +1,4 @@
 #
-# Let is empty if no Authorization is needed
-# Otherwise the Authorization header is added and
-# the download can fail.
+# Leave it empty if no Authorization is needed.
 #
 SET(credentials "")

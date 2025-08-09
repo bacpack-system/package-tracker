@@ -6,8 +6,8 @@ INCLUDE("${CMAKE_CURRENT_LIST_DIR}/helpers/BA_PACKAGE_PREREQ.cmake")
 
 
 #
-# Lets get variables to ensure they are defined
-# By a Global Config for thei appropriate use...
+# Let's get variables to ensure they are defined
+# By a Global Config for their appropriate use...
 #
 CMCONF_GET(BA_PACKAGE_LOCAL_USE)
 IF(BA_PACKAGE_LOCAL_USE)
@@ -22,7 +22,7 @@ SET(template)
 SET(revision)
 IF(DEFINED ENV{BA_PACKAGE_LOCAL_PATH})
     IF(BA_PACKAGE_LOCAL_USE)
-        MESSAGE(WARNING "BA_PACKAGE_LOCAL_PATH ENV variable is defined and BA_PACKAGE_LOCAL_USE is ON. Using BA_PACKAGE_LOVAL_PATH ENV variable to set as Repository path")
+        MESSAGE(WARNING "BA_PACKAGE_LOCAL_PATH ENV variable is defined and BA_PACKAGE_LOCAL_USE is ON. Using BA_PACKAGE_LOCAL_PATH ENV variable to set as Repository path")
     ENDIF()
     BA_PACKAGE_PREREQ_LOCAL_PATH_CHECK("$ENV{BA_PACKAGE_LOCAL_PATH}")
     SET(template "file://$ENV{BA_PACKAGE_LOCAL_PATH}/package/<GIT_PATH>/<PACKAGE_GROUP_NAME>/<ARCHIVE_NAME>")
