@@ -6,7 +6,7 @@ Sample application with a CURL package to show content of example.com domain.
 The project uses [example-context] as the source of dependency definitions.
 
 - install [CMake-lib]
-- prepare clean Package Registry and use [Packager] to build packages.
+- prepare clean Package Repository and use [Packager] to build packages.
   Details at [example usage documentation].
 - Open terminal in Package Tracker example directory (this one) and run
   - `export BA_PACKAGE_LOCAL_PATH=<path_to_local_repo>` where `<path_to_local_repo>` is the absolute path to the local Package Repository.

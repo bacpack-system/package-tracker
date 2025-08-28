@@ -26,14 +26,14 @@ Full example: [example/]
 - `BA_PACKAGE_DEPS_IMPORTED` installs all imported linked dependencies for a given target
 - `BA_PACKAGE_DEPS_SET_TARGET_RPATH` updates R/RUNPATH for a given target
 
-## Local vs Remote Package Registry
+## Local vs Remote Package Repository
 
-There are two ways how to access the Package Registry:
+There are two ways how to access the Package Repository:
 
 - Local: download it locally manually and use "file://" URI scheme to access it.
   It is especially useful when offline access is needed, for testing purposes
-  or for fine-grained control over which revision of the Package Registry to use.
-- Remote: let Package Tracker download it from remote repository
+  or for fine-grained control over which revision of the Package Repository to use.
+- Remote: let Package Tracker download it from remote Package Repository
 
 Details on how to configure each mode are in [CMCONF Global Config]
 
@@ -51,7 +51,7 @@ Setting variable values are highly affected by [CMCONF Global Config].
 - `REVISION` - git revision to use when accessing Package Repository.
   Set to [CMCONF Global Config] variable `BA_PACKAGE_URI_REVISION`.
   It has to be set empty for "file://" URI scheme.
-- `URI_TEMPLATE` - [CMake-lib] template to construct URI to download package from Package Registry.
+- `URI_TEMPLATE` - [CMake-lib] template to construct URI to download package from Package Repository.
    The value is instantiated in cooperation with CMCONF Global Config of Package Tracker.
    The following variables are available for the template:
     - `<REVISION>` - git revision to use when accessing Package Repository.
@@ -62,7 +62,7 @@ Setting variable values are highly affected by [CMCONF Global Config].
     - `<ARCHIVE_NAME>` - full name of the Package. Set to ${package_group_name}_${version_tag}_${platform_string}.zip
 
 ```cmake
-# Set REVISION to revision_update
+# Set REVISION to deps_update
 BA_PACKAGE_VARS_SET(REVISION deps_update)
 # Obtain nlohmann-json not from default branch but from deps_update branch
 BA_PACKAGE_LIBRARY(nlohmann-json v3.10.5 PLATFORM_STRING_MODE any_machine)
@@ -89,7 +89,7 @@ use `NO_DEBUG ON` in `BA_PACKAGE_LIBRARY`; otherwise the conflict will occur.
 
 
 
-[BringAuto Packager]: https://github.com/bringauto/packager
+[BringAuto Packager]: https://github.com/bacpack-system/packager
 [CMCONF Global Config]: ./doc/GlobalConfiguration.md
 [CMake-lib]: https://github.com/cmakelib/cmakelib
 [BringAuto Packager Context]: https://github.com/bacpack-system/packager/blob/master/doc/ContextStructure.md

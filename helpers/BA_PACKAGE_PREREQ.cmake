@@ -1,11 +1,17 @@
 ##
 #
+# BringAuto Package prerequisites helpers
 #
+# Utilities used by Package Tracker to initialize storage and URI templates.
 #
-
 
 ##
 #
+# Validate local Package Repository path
+#
+# <function>(
+#   <local_repository_path> // absolute path to an existing directory
+# )
 #
 FUNCTION(BA_PACKAGE_PREREQ_LOCAL_PATH_CHECK local_repository_path)
     IF(NOT IS_ABSOLUTE "${local_repository_path}")
@@ -20,6 +26,16 @@ ENDFUNCTION()
 
 ##
 #
+# Initialize URI template and revision from Global Config (CMCONF)
+#
+# Reads BA_PACKAGE_* settings and selects either local repository file:// template
+# or remote URI template with revision. If BA_PACKAGE_LOCAL_PATH env var is set,
+# it takes precedence.
+#
+# <function>(
+#   <template_output_var>  // variable name to receive the template (parent scope)
+#   <revision_output_var>  // variable name to receive the revision (parent scope)
+# )
 #
 FUNCTION(BA_PACKAGE_PREREQ_CMCONF_INIT template_output_var revision_output_var)
     #
