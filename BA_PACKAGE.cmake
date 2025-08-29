@@ -25,7 +25,6 @@ FIND_PACKAGE(CMLIB COMPONENTS CMUTIL CMDEF)
 #   <package_name>
 #   <version_tag>
 #   [OUTPUT_PATH_VAR <output_path_var_name>]
-#   [PLATFORM_STRING_MODE {"any_machine"}]
 #   [CACHE_ONLY {ON|OFF}]
 #   [NO_DEBUG {ON|OFF}]
 # )
@@ -116,6 +115,7 @@ ENDFUNCTION()
 # <function>(
 #   <package_name>
 #   <version_tag>
+#   <prefix> <suffix> <output_var>
 #   [CACHE_ONLY {ON|OFF}]
 #   [NO_DEBUG {ON|OFF}]
 # )

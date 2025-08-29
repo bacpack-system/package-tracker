@@ -20,6 +20,7 @@ FIND_PACKAGE(CMLIB COMPONENTS CMDEF REQUIRED)
 # <function> (
 #	<cmake_target>
 # )
+# Unsupported target types lead to a fatal error.
 #
 FUNCTION(BA_PACKAGE_DEPS_SET_TARGET_RPATH target)
 	IF(NOT TARGET ${target})
@@ -64,8 +65,9 @@ ENDFUNCTION()
 # The install dir for all dependencies is set from CMDEF_LIBRARY_INSTALL_DIR
 #
 # <function> (
-#   <target> <install_dir>
+#   <target>
 # )
+# The install destination is ${CMDEF_LIBRARY_INSTALL_DIR}.
 #
 FUNCTION(BA_PACKAGE_DEPS_INSTALL_IMPORTED target)
 
@@ -144,9 +146,10 @@ ENDMACRO()
 #   (because of symlinks)
 #
 # <function> (
-#	<target>                          // CMake target for which we want to gather dependencies
-#	<filenames_list_not_symlinks_var> // list of filenames (not symlinks) installed by the function
+#	<target>                 // CMake target to analyze
+#	<filenames_list_var>     // list var receiving filenames used for post-processing
 # )
+# The list contains real shared library filenames and symlink filenames (names only).
 #
 FUNCTION(_BA_PACKAGE_DEPS_GET_DEPENDENCIES_FILES target filenames_for_patchelf_var)
     SET(install_dir "${CMDEF_LIBRARY_INSTALL_DIR}")

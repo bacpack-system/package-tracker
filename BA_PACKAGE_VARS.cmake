@@ -19,12 +19,12 @@
 
 SET(BA_PACKAGE_VARS__REVISION "master"
     CACHE INTERNAL
-    "Package repository revision to use"
+    "Package Repository revision to use"
 )
 
 SET(BA_PACKAGE_VARS__URI_TEMPLATE "NonExistentPath"
     CACHE INTERNAL
-    "Package repository revision to use"
+    "Storage URI template used to construct the package download URI"
 )
 
 
@@ -56,8 +56,8 @@ ENDFUNCTION()
 # It gets the variable value.
 #
 # <function>(
-#   var_name // uppercase variable name
-#   var_value // variable value to set
+#   var_name        // uppercase variable name
+#   output_var_name // variable name to receive the value
 # )
 #
 FUNCTION(BA_PACKAGE_VARS_GET var_name output_var_name)

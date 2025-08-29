@@ -7,10 +7,12 @@ BringAuto package tracker based on [BringAuto Packager] and [CMake-lib]
 
 ```
 # Add package - download, cache and populate
-BA_PACKAGE_LIBRARY(nlohmann-json v3.10.5 PLATFORM_STRING_MODE any_machine)
-# Find package as described in the library manual 
+BA_PACKAGE_LIBRARY(nlohmann-json v3.10.5)
+# Find package as described in the library manual
 FIND_PACKAGE(nlohmann_json 3.2.0 REQUIRED)
 ```
+BA_PACKAGE_LIBRARY appends the package root to CMAKE_PREFIX_PATH so standard FIND_PACKAGE works.
+
 
 Full example: [example/]
 
@@ -28,12 +30,12 @@ Full example: [example/]
 
 ## Local vs Remote Package Repository
 
-There are two ways how to access the Package Repository:
+There are two ways to access the Package Repository:
 
 - Local: download it locally manually and use "file://" URI scheme to access it.
   It is especially useful when offline access is needed, for testing purposes
   or for fine-grained control over which revision of the Package Repository to use.
-- Remote: let Package Tracker download it from remote Package Repository
+- Remote: let Package Tracker download it from a remote Package Repository
 
 Details on how to configure each mode are in [CMCONF Global Config]
 
@@ -57,24 +59,24 @@ Setting variable values are highly affected by [CMCONF Global Config].
     - `<REVISION>` - git revision to use when accessing Package Repository.
       Taken from REVISION setting variable. Invalid for "file://" URI type. Switching revisions in local
       Package Repository needs to be managed manually.
-    - `<GIT_PATH>` - path to Packages in the repository for a given system. Set to "${CMDEF_DISTRO_ID}/${CMDEF_DISTRO_VERSION_ID}/${CMDEF_ARCHITECTURE}",
+    - `<GIT_PATH>` - path to Packages in the repository for a given system. Set to `${CMDEF_DISTRO_ID}/${CMDEF_DISTRO_VERSION_ID}/${CMDEF_ARCHITECTURE}`,
     - `<PACKAGE_GROUP_NAME>` - package group name as stated in [BringAuto Packager Context]
-    - `<ARCHIVE_NAME>` - full name of the Package. Set to ${package_group_name}_${version_tag}_${platform_string}.zip
+    - `<ARCHIVE_NAME>` - full name of the Package. Set to ${package_group_name}_${version_tag}_${platform_string}.zip. The platform string is derived from CMDEF variables: `CMDEF_ARCHITECTURE`, `CMDEF_DISTRO_ID`, `CMDEF_DISTRO_VERSION_ID`.
 
 ```cmake
 # Set REVISION to deps_update
 BA_PACKAGE_VARS_SET(REVISION deps_update)
 # Obtain nlohmann-json not from default branch but from deps_update branch
-BA_PACKAGE_LIBRARY(nlohmann-json v3.10.5 PLATFORM_STRING_MODE any_machine)
+BA_PACKAGE_LIBRARY(nlohmann-json v3.10.5)
 ```
 
 ## FAQ
 
-### Q: Package not found even if it exists in the remote repository
+### Q: Package not found even if it exists in the repository
 
-Make sure you chose the correct `PLATFORM_STRING_MODE`.
-
-If package is not bound to the architecture or Linux distro this context info must be passed down by the `PLATFORM_STRING_MODE`.
+- Ensure the package was built for your platform (CMDEF_DISTRO_ID, CMDEF_DISTRO_VERSION_ID, CMDEF_ARCHITECTURE).
+- Verify REVISION and URI_TEMPLATE (see CMCONF Global Config) point to the right Package Repository and branch.
+- If using a local Package Repository, confirm BA_PACKAGE_LOCAL_PATH points to the correct directory and that the expected package archive exists.
 
 ### Q: Package conflict if I want to build my project by second build type
 
