@@ -26,9 +26,17 @@ Steps:
 
 - Update [cmakelib] to version v1.3.2
 - Get a name of the system the project belongs to.
+- Find `CMCONF` cmakelib component by `FIND_PACKAGE(CMLIB REQUIRED COMPONENTS CMCONF)` in the Projects [CMLibStorage.cmake]
 - Set system name by `CMCONF_INIT_SYSTEM(<system_name>)` in the Projects [CMLibStorage.cmake]
 - Install [CMCONF Global Config] for the system (it shall by part of Packager Context of the System).
 - Clean all CMake caches and reconfigure the CMake project.
+
+Updates to [CMLibStorage.cmake] shall look like this:
+
+```cmake
+FIND_PACKAGE(CMLIB REQUIRED COMPONENTS CMCONF)
+CMCONF_INIT_SYSTEM(<system_name>)
+```
 
 Examples can be found in [example/], [example-project] and [example-context]
 
