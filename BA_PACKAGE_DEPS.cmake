@@ -15,11 +15,12 @@ FIND_PACKAGE(CMLIB COMPONENTS CMDEF REQUIRED)
 # It sets the INSTALL_RUNPATH of the target to a
 # library directory specified by CMDEF_LIBRARY_INSTALL_DIR.
 #
-# It is expected the 'target' is installed and maintained by CMDE_INSTALL macro.
+# It is expected the 'target' is installed and maintained by CMDEF_INSTALL macro.
 #
 # <function> (
 #	<cmake_target>
 # )
+# Unsupported target types lead to a fatal error.
 #
 FUNCTION(BA_PACKAGE_DEPS_SET_TARGET_RPATH target)
 	IF(NOT TARGET ${target})
@@ -58,14 +59,15 @@ ENDFUNCTION()
 
 ##
 #
-# Function goes thru target link dependencies, gather all
-# imported shared libraries, install them and repair RUNPATH for all installed librarties.
+# Function goes through target link dependencies, gathers all
+# imported shared libraries, installs them and repairs RUNPATH for all installed libraries.
 #
-# The install dir for all dependencies is set from CMDEF_LIBARRY_INSTALL_DIR
+# The install dir for all dependencies is set from CMDEF_LIBRARY_INSTALL_DIR
 #
 # <function> (
-#   <target> <install_dir>
+#   <target>
 # )
+# The install destination is ${CMDEF_LIBRARY_INSTALL_DIR}.
 #
 FUNCTION(BA_PACKAGE_DEPS_INSTALL_IMPORTED target)
 
@@ -113,11 +115,11 @@ ENDMACRO()
 
 ## Helper
 #
-# Function go thru all runtime link dependencies and install them.
-# The install dir for all dependencies is set from CMDEF_LIBARRY_INSTALL_DIR
+# Function goes through all runtime link dependencies and installs them.
+# The install dir for all dependencies is set from CMDEF_LIBRARY_INSTALL_DIR
 #
 # [Details]
-# Function go thru all libraries mentonied in 'target' properties
+# Function goes through all libraries mentioned in 'target' properties
 #   - LINK_LIBRARIES
 #   - INTERFACE_LINK_LIBRARIES
 #
@@ -132,21 +134,22 @@ ENDMACRO()
 # - then check if the 'filename' represents shared library by matching against regex IS_SHARED = "^([^.]+).so[.0-9]*$".
 # Let FILENAME is a string obtained from the only group from the regex IS_SHARED
 #	- get 'directory' by GET_FILENAME_COMPONENT(DIRECTORY ${filepath} directory)
-#   - get 'filenames' from 'dorectory' with prefix <filename>.so
+#   - get 'filenames' from 'directory' with prefix <filename>.so
 #   - install all filename into the library directory in target installation dir.
-#   - If set 'filenames' contains at least one symlink then there must be exactly one F in filenames
-#     that is not symlink --> all symlinks frim 'filenames' will point to the file F.
-#   - If the set 'filenames' does not contain element representing symlink then all element in filenames
+#   - If the set 'filenames' contains at least one symlink, then there must be exactly one F in filenames
+#     that is not a symlink --> all symlinks from 'filenames' will point to the file F.
+#   - If the set 'filenames' does not contain an element representing a symlink, then all elements in 'filenames'
 #     must not be symlinks
 #
 # [Pitfalls]
-# - If there are multiple versions of same library the function installs them all and can breake the app
-#   (because of symlinks) 
+# - If there are multiple versions of the same library the function installs them all and can break the app
+#   (because of symlinks)
 #
 # <function> (
-#	<target>                          // CMake terget for which we want to gather dependnecies
-#	<filenames_list_not_symlinks_var> // list of filenames (not symlinks) installed by the function
+#	<target>                 // CMake target to analyze
+#	<filenames_list_var>     // list var receiving filenames used for post-processing
 # )
+# The list contains real shared library filenames and symlink filenames (names only).
 #
 FUNCTION(_BA_PACKAGE_DEPS_GET_DEPENDENCIES_FILES target filenames_for_patchelf_var)
     SET(install_dir "${CMDEF_LIBRARY_INSTALL_DIR}")

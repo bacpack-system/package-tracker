@@ -7,7 +7,7 @@
 # - Every variable accessed by Setter/Getter should
 #   be stored as INTERNAL cache variable.
 # - Every variable is stored as a CMake cache variable with name BA_PACKAGE_VARS__<var_name>.
-#   Double _ is chosen to not need define a reserved variable names SET and GET.
+#   Double _ is chosen to avoid defining reserved variable names SET and GET.
 # - Every variable shall be set/get by a SetterGetter function.
 #
 # Mechanism of Setter/Getter was chosen in order to simplify
@@ -19,7 +19,12 @@
 
 SET(BA_PACKAGE_VARS__REVISION "master"
     CACHE INTERNAL
-    "Package repository revision to use"
+    "Package Repository revision to use"
+)
+
+SET(BA_PACKAGE_VARS__URI_TEMPLATE "NonExistentPath"
+    CACHE INTERNAL
+    "Storage URI template used to construct the package download URI"
 )
 
 
@@ -30,7 +35,7 @@ SET(BA_PACKAGE_VARS__REVISION "master"
 #
 # <function>(
 #   var_name // uppercase variable name
-#   va_value // variable value to set
+#   var_value // variable value to set
 # )
 #
 FUNCTION(BA_PACKAGE_VARS_SET var_name var_value)
@@ -39,7 +44,7 @@ FUNCTION(BA_PACKAGE_VARS_SET var_name var_value)
     ENDIF()
     SET(cache_var_name "BA_PACKAGE_VARS__${var_name}")
     IF(NOT DEFINED ${cache_var_name})
-        MESSAGE(FATAL_ERROR "Package variable invalid set. Trying to se non-defined BA_PACKAGE variable '${var_name}'")
+        MESSAGE(FATAL_ERROR "Package variable invalid set. Trying to set non-defined BA_PACKAGE variable '${var_name}'")
     ENDIF()
     SET_PROPERTY(CACHE ${cache_var_name} PROPERTY VALUE "${var_value}")
 ENDFUNCTION()
@@ -51,8 +56,8 @@ ENDFUNCTION()
 # It gets the variable value.
 #
 # <function>(
-#   var_name // uppercase variable name
-#   va_value // variable value to set
+#   var_name        // uppercase variable name
+#   output_var_name // variable name to receive the value
 # )
 #
 FUNCTION(BA_PACKAGE_VARS_GET var_name output_var_name)

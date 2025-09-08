@@ -1,5 +1,5 @@
 #
-# The system builds the app/ and check
+# The system builds the app/ and checks
 # if all installed dependencies are in place and all
 # RPATH/RUNPATH are set up correctly
 #
@@ -7,7 +7,7 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 3.21)
 
 IF(NOT CMAKE_SCRIPT_MODE_FILE)
-    MESSAGE(FATAL_ERROR "Please, run list in CMake script mode!")
+    MESSAGE(FATAL_ERROR "Please, run this in CMake script mode!")
 ENDIF()
 
 FIND_PACKAGE(CMLIB COMPONENTS CMDEF REQUIRED)
@@ -30,10 +30,10 @@ ENDFUNCTION()
 
 ##
 #
-# Function builds all needed dependnecies, installs them
+# Function builds all needed dependencies, installs them
 # and test if testapp install directory is consistent
 # <function> (
-#       testbase_path   // absolute path to the topmost dire with tests
+#       testbase_path   // absolute path to the topmost dir with tests
 #       testfile_name   // name of the testfile from testbase_path
 #       app_build_dir   // where to create a build
 #       app_install_dir // where to install test app
@@ -95,7 +95,7 @@ ENDFUNCTION()
 # If not FATAL_ERROR is omitted.
 #
 # <function> (
-#       app_install_dir // where the tesapp is installed
+#       app_install_dir // where the testapp is installed
 # )
 #
 FUNCTION(DEPSTEST_CHECK_RUNPATH app_install_dir)
@@ -122,7 +122,7 @@ FUNCTION(DEPSTEST_CHECK_RUNPATH app_install_dir)
         ENDIF()
         STRING(REGEX MATCH "Library runpath: \\[([^\\)]+)\\]" runpath_exist "${readelf_output}")
         IF(NOT runpath_exist)
-            MESSAGE(FATAL_ERROR "Cannot find RUNPATH be readelf. Error! ${readelf_output}")
+            MESSAGE(FATAL_ERROR "Cannot find RUNPATH by readelf. Error! ${readelf_output}")
         ENDIF()
         SET(actual_runpath "${CMAKE_MATCH_1}")
         IF(NOT expected_binfile_runpath STREQUAL actual_runpath)
@@ -151,11 +151,11 @@ ENDFUNCTION()
 
 ##
 #
-# It checks if there are no simlinks which points
+# It checks that there are no symlinks which point
 # to absolute file/dir path
 #
 # <function>(
-#       app_install_dir // where the tesapp is installed
+#       app_install_dir // where the testapp is installed
 # )
 #
 FUNCTION(DEPSTEST_CHECK_SYMLINKS app_install_dir)
@@ -186,7 +186,7 @@ SET(TESTAPP_INSTALL_DIR)
 
 IF(TEST_WITH_DESTDIR)
     IF(NOT "$ENV{DESTDIR}" STREQUAL "")
-        MESSAGE(FATAL_ERROR "Ou, DESTDIR already set, please unset DESTDIR env. variable!")
+        MESSAGE(FATAL_ERROR "Oh, DESTDIR already set, please unset DESTDIR env. variable!")
     ENDIF()
     SET(destdir "${CMAKE_CURRENT_LIST_DIR}/destdir")
     SET(ENV{DESTDIR}        "${destdir}")

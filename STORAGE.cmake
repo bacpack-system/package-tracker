@@ -1,9 +1,32 @@
 
-SET(BRINGAUTO_REPOSITORY_URL_TEMPLATE "https://gitea.bringauto.com/fleet-protocol/package-repository/media/<REVISION>/package/<GIT_PATH>/<ARCHIVE_NAME>/<PACKAGE_NAME>"
-    CACHE STRING
-    "Package template for an URI generation"
+FIND_PACKAGE(CMLIB REQUIRED COMPONENTS CMCONF)
+
+INCLUDE("${CMAKE_CURRENT_LIST_DIR}/helpers/BA_PACKAGE_PREREQ.cmake")
+
+SET(BA_PACKAGE_CMCONF_USE TRUE
+    CACHE BOOL
+    "Switch on for CMCONF use; off for testing purposes. Do not alter this setting unless you know what you are doing."
 )
+IF(BA_PACKAGE_CMCONF_USE)
+    BA_PACKAGE_PREREQ_CMCONF_INIT(template revision)
+ENDIF()
+
+IF(BA_PACKAGE_HTTP_AUTHORIZATION_HEADER)
+    IF(CMLIB_FILE_DOWNLOAD_AUTHORIZATION_HEADER)
+        MESSAGE(WARNING "HTTP Authorization header is defined but CMLIB_FILE_DOWNLOAD_AUTHORIZATION_HEADER is already set. Using BA_PACKAGE_HTTP_AUTHORIZATION_HEADER.")
+    ENDIF()
+    SET(CMLIB_FILE_DOWNLOAD_AUTHORIZATION_HEADER "Authorization: ${BA_PACKAGE_HTTP_AUTHORIZATION_HEADER}"
+        CACHE STRING
+        "HTTP Authorization header set by Package Tracker to access the private repository"
+        FORCE
+    )
+ENDIF()
+
+
 
 INCLUDE("${CMAKE_CURRENT_LIST_DIR}/BA_PACKAGE_VARS.cmake")
 INCLUDE("${CMAKE_CURRENT_LIST_DIR}/BA_PACKAGE.cmake")
 INCLUDE("${CMAKE_CURRENT_LIST_DIR}/BA_PACKAGE_DEPS.cmake")
+
+BA_PACKAGE_VARS_SET(REVISION     "${revision}")
+BA_PACKAGE_VARS_SET(URI_TEMPLATE "${template}")

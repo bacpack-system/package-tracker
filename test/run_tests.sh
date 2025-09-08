@@ -16,7 +16,13 @@ var_tests() {
     cmake -DINVALID_VAR_TEST=ON -P ./run_vars_test.cmake
     if [ $? -eq 0 ]; then
         echo "run_vars_test failed!" >&2
+        echo "run_vars_test failed! CMake Error is expected but not returned!" >&2
+        echo "run_vars_test failed!" >&2
         exit 1
+    else
+        echo "run_vars_test passed!"
+        echo "run_vars_test passed! CMake Error is expected."
+        echo "run_vars_test passed!"
     fi
     set -e
 }

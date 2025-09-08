@@ -2,7 +2,7 @@
 #
 # BringAuto Package script.
 #
-# Enable us to download and track dependencies build by BringAuto Packager.
+# Enable us to download and track dependencies built by BringAuto Packager.
 #
 
 FIND_PACKAGE(CMLIB COMPONENTS CMUTIL CMDEF)
@@ -14,7 +14,7 @@ FIND_PACKAGE(CMLIB COMPONENTS CMUTIL CMDEF)
 # Download, cache and populate library development package
 #
 # CACHE_ONLY - if specified no download is performed. The package
-# must be cached by previous of BA_PACKAGE_LIBRARY() without CACHE_ONLY switch.
+# must be cached by a previous call to BA_PACKAGE_LIBRARY() without CACHE_ONLY switch.
 #
 # NO_DEBUG - use release, not debug version of the package (can be used if release and debug
 # variant are equal)
@@ -25,7 +25,6 @@ FIND_PACKAGE(CMLIB COMPONENTS CMUTIL CMDEF)
 #   <package_name>
 #   <version_tag>
 #   [OUTPUT_PATH_VAR <output_path_var_name>]
-#   [PLATFORM_STRING_MODE {"any_machine"}]
 #   [CACHE_ONLY {ON|OFF}]
 #   [NO_DEBUG {ON|OFF}]
 # )
@@ -75,7 +74,7 @@ ENDFUNCTION()
 #   [NO_DEBUG {ON|OFF}]
 # )
 #
-FUNCTION(BA_PACKAGE_EXECUTABLE package_name varsion_tag)
+FUNCTION(BA_PACKAGE_EXECUTABLE package_name version_tag)
     CMLIB_PARSE_ARGUMENTS(
         ONE_VALUE
             OUTPUT_PATH_VAR
@@ -116,6 +115,7 @@ ENDFUNCTION()
 # <function>(
 #   <package_name>
 #   <version_tag>
+#   <prefix> <suffix> <output_var>
 #   [CACHE_ONLY {ON|OFF}]
 #   [NO_DEBUG {ON|OFF}]
 # )
@@ -141,12 +141,17 @@ FUNCTION(_BRINGAUTO_PACKAGE package_name version_tag prefix suffix output_var)
     SET(package_string "${package_name_expanded}_${version_tag}_${platform_string}.zip")
 
     BA_PACKAGE_VARS_GET(REVISION revision_var)
+    SET(revision_arg)
+    IF(revision_var)
+        SET(revision_arg REVISION "${revision_var}")
+    ENDIF()
     SET(git_path "${CMDEF_DISTRO_ID}/${CMDEF_DISTRO_VERSION_ID}/${machine}")
-    CMLIB_STORAGE_TEMPLATE_INSTANCE( remote_file BRINGAUTO_REPOSITORY_URL_TEMPLATE
-        REVISION "${revision_var}"
+    BA_PACKAGE_VARS_GET(URI_TEMPLATE template_var)
+    CMLIB_STORAGE_TEMPLATE_INSTANCE(remote_file template_var
+        ${revision_arg}
         GIT_PATH "${git_path}"
-        PACKAGE_NAME "${package_string}"
-        ARCHIVE_NAME "${package_name}"
+        ARCHIVE_NAME "${package_string}"
+        PACKAGE_GROUP_NAME "${package_name}"
     )
 
     STRING(TOUPPER "${package_name}" package_name_upper)
@@ -154,7 +159,7 @@ FUNCTION(_BRINGAUTO_PACKAGE package_name version_tag prefix suffix output_var)
     IF(NOT package_name_upper)
         MESSAGE(FATAL_ERROR "Invalid package name: ${package_name}")
     ENDIF()
-    SET(keywords BAPACK ${package_name_upper})
+    SET(keywords BACPACK ${package_name_upper})
 
     IF(NOT __NO_DEBUG)
         STRING(TOUPPER "${CMAKE_BUILD_TYPE}" build_type_upper)
@@ -169,7 +174,7 @@ FUNCTION(_BRINGAUTO_PACKAGE package_name version_tag prefix suffix output_var)
             TRY_REGENERATE ON
         )
         IF(NOT cache_path)
-            MESSAGE(FATAL_ERROR "Package does not found: ${package_string}")
+            MESSAGE(FATAL_ERROR "Package not found: ${package_string}")
         ENDIF()
     ELSE()
         _BA_PACKAGE_MESSAGE(REGISTER ${package_name})
@@ -200,5 +205,5 @@ FUNCTION(_BA_PACKAGE_MESSAGE action message)
     IF(item EQUAL -1)
         MESSAGE(FATAL_ERROR "BA_PACKAGE: Cannot print unknown action ${action}")
     ENDIF()
-    MESSAGE(STATUS "BA PACKAGE [${action}]: ${message}")
+    MESSAGE(STATUS "BA_PACKAGE [${action}]: ${message}")
 ENDFUNCTION()

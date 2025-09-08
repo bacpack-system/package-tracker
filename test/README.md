@@ -15,7 +15,7 @@ The test consists of Test Application located in 'app/' directory.
 
 ## Run Tests
 
-in the \<git_root>test/ directory run
+In the \<git_root>test/ directory run
 
 ```cmake
 cmake -P ./run_tests.cmake
@@ -34,11 +34,11 @@ Application components:
 `Application executable` links against `Application libraries`. As a build argument the name of the test from the `tests_list/`
 directory is passed.
 
-Files inside `tests_list/` directory serve as use cases for altering installed files installed for `Application libraries`
+Files inside `tests_list/` directory serve as use cases for altering files installed for `Application libraries`
 
 ### Application Libraries (dependencies)
 
-There are two libraries shared libraries `shared_library` and `shared_library_for_prerun`
+There are two shared libraries, `shared_library` and `shared_library_for_prerun`
 
 `shared_library` represents standard CMake Package (with all needed exported targets etc.)
 
@@ -54,11 +54,11 @@ Because tests for multiple use cases are needed the installed dependencies must 
 
 Directory `app/tests_list` contains files where each of which represents one use case that needs to be tested. The file from `app/tests_list` is referred as `test file`.
 
-Each `test file` shall to define following CMake functions/macros
+Each `test file` shall define the following CMake functions/macros
 
 ```cmake
 #
-# Function is used for alternate of library installation according of the use case. 
+# Function is used to alter the library installation according to the use case.
 # (rename files, create/delete symlinks, move files, ...).
 #
 # Function is called exactly once for exactly one `Application Library`
@@ -86,8 +86,8 @@ TEST_PRERUN(...)
 # Function returns list of expected files located in installation
 # directory of `Application Libraries`.
 #
-# Function must return list of expected files after install dir struct.
-# alternation be TEST_PRERUN(...)
+# Function must return a list of expected files after install dir structure
+# alteration by TEST_PRERUN(...)
 #
 # function (
 #   <list_var_name>
@@ -121,4 +121,4 @@ TEST_GET_EXPECTED_INSTALLED_FILES_LIST(...)
 
 - Rename `shared_library` and `shared_library_for_prerun`
   to `library` and `library_for_prerun` to avoid duplicities.
-  (system automatically add -shared suffix to the resulting library names...)
+  (system automatically adds the -shared suffix to the resulting library names...)

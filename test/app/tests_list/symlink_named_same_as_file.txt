@@ -35,7 +35,7 @@ FUNCTION(TEST_PRERUN)
         P_ARGN ${ARGN}
     )
 
-    MESSAGE(STATUS "Crushing symlinks")
+    MESSAGE(STATUS "Adjusting symlinks")
 
     SET(library_name         "${__LIBRARY_NAME}")
     SET(version              "${__VERSION}")
@@ -59,7 +59,7 @@ FUNCTION(TEST_PRERUN)
         WORKING_DIRECTORY "${install_dir}/"
     )
     IF(NOT result EQUAL 0)
-        MESSAGE(FATAL_ERROR "cannot rm file -f ${library_filepath}")
+        MESSAGE(FATAL_ERROR "cannot remove file -f ${library_filepath}")
     ENDIF()
     EXECUTE_PROCESS(
         COMMAND ${CMAKE_COMMAND} -E rm -f "${link_filepath}"
@@ -67,7 +67,7 @@ FUNCTION(TEST_PRERUN)
         WORKING_DIRECTORY "${install_dir}/"
     )
     IF(NOT result EQUAL 0)
-        MESSAGE(FATAL_ERROR "cannot rm file ${link_filepath}")
+        MESSAGE(FATAL_ERROR "cannot remove file ${link_filepath}")
     ENDIF()
     EXECUTE_PROCESS(
         COMMAND ${CMAKE_COMMAND} -E create_symlink "${new_library_filepath}" ${library_filepath}
