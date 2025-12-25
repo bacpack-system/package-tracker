@@ -154,11 +154,16 @@ FUNCTION(_BRINGAUTO_PACKAGE package_name version_tag prefix suffix output_var)
         PACKAGE_GROUP_NAME "${package_name}"
     )
 
-    STRING(TOUPPER "${package_name}" package_name_upper)
-    STRING(REGEX REPLACE "[^A-Z]" "" package_name_upper  "${package_name_upper}")
+    STRING(TOUPPER "${package_name}" package_name_upper_orig)
+    STRING(REGEX REPLACE "[^A-Z0-9]" "" package_name_upper         "${package_name_upper_orig}")
+    STRING(REGEX REPLACE "[\\-]"     "" package_name_upper_wodash  "${package_name_upper_orig}")
     IF(NOT package_name_upper)
         MESSAGE(FATAL_ERROR "Invalid package name: ${package_name}")
     ENDIF()
+    IF(NOT (package_name_upper STREQUAL package_name_upper_wodash))
+        MESSAGE(WARNING "Package name ${package_name} contains invalid characters. It was normalized to form a proper CMLIB cache keyword: ${package_name} --> ${package_name_upper}")
+    ENDIF()
+
     SET(keywords BACPACK ${package_name_upper})
 
     IF(NOT __NO_DEBUG)
