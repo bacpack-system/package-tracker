@@ -49,7 +49,6 @@ FUNCTION(BA_PACKAGE_PREREQ_CMCONF_INIT template_output_var revision_output_var)
         CMCONF_GET(BA_PACKAGE_HTTP_AUTHORIZATION_HEADER)
         CMCONF_GET(BA_PACKAGE_URI_REVISION)
         CMCONF_GET(BA_PACKAGE_URI_TEMPLATE_REMOTE)
-        CMCONF_GET(BA_PACKAGE_)
     ENDIF()
 
     SET(template)
@@ -72,6 +71,7 @@ FUNCTION(BA_PACKAGE_PREREQ_CMCONF_INIT template_output_var revision_output_var)
         ENDIF()
     ENDIF()
 
+    # unreachable, but for clarity...
     IF(revision AND (BA_PACKAGE_LOCAL_USE OR DEFINED ENV{BA_PACKAGE_LOCAL_PATH}))
         MESSAGE(WARNING "Revision is defined but local repository is used.")
     ENDIF()
