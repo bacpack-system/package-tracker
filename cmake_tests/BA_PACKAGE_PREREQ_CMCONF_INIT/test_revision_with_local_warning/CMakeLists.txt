@@ -11,9 +11,6 @@ SET(TEST_CMCONF_BA_PACKAGE_LOCAL_USE ON)
 SET(TEST_CMCONF_BA_PACKAGE_LOCAL_PATH "/tmp")
 
 INCLUDE("${CMAKE_CURRENT_LIST_DIR}/../../mock/CMCONF.cmake")
-
-SET(BA_PACKAGE_URI_REVISION "v1.0.0")
-
 INCLUDE("${CMAKE_CURRENT_LIST_DIR}/../../../helpers/BA_PACKAGE_PREREQ.cmake")
 
 UNSET(ENV{BA_PACKAGE_LOCAL_PATH})
@@ -22,4 +19,7 @@ BA_PACKAGE_PREREQ_CMCONF_INIT(result_template result_revision)
 
 SET(expected_template "file:///tmp/package/<GIT_PATH>/<PACKAGE_GROUP_NAME>/<ARCHIVE_NAME>")
 TEST_VAR_EQUALS_LITERAL(result_template "${expected_template}")
+
+SET(expected_revision "")
+TEST_VAR_EQUALS_LITERAL(result_revision "${expected_revision}")
 

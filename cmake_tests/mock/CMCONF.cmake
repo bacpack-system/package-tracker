@@ -3,7 +3,7 @@
 # Mock CMCONF module for testing BA_PACKAGE_PREREQ_CMCONF_INIT
 #
 # This mock provides CMCONF_GET function that returns pre-configured test values.
-# Test values are set via TEST_CMCONF_<var_name> variables before including this mock.
+# Test values are set via TEST_CMCONF_<var_name> before using CMCONF_GET
 #
 
 FUNCTION(CMCONF_GET var_name)
