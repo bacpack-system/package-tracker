@@ -146,6 +146,7 @@ FUNCTION(_BRINGAUTO_PACKAGE package_name version_tag prefix suffix output_var)
         SET(revision_arg REVISION "${revision_var}")
     ENDIF()
     SET(git_path "${CMDEF_DISTRO_ID}/${CMDEF_DISTRO_VERSION_ID}/${machine}")
+
     BA_PACKAGE_VARS_GET(URI_TEMPLATE template_var)
     CMLIB_STORAGE_TEMPLATE_INSTANCE(remote_file template_var
         ${revision_arg}
@@ -153,6 +154,20 @@ FUNCTION(_BRINGAUTO_PACKAGE package_name version_tag prefix suffix output_var)
         ARCHIVE_NAME "${package_string}"
         PACKAGE_GROUP_NAME "${package_name}"
     )
+
+    SET(git_archive_path_arg)
+    SET(git_revision_arg)
+    BA_PACKAGE_VARS_GET(GIT_PATH_TEMPLATE git_path_template_var)
+    IF(git_path_template_var)
+        CMLIB_STORAGE_TEMPLATE_INSTANCE(git_archive_path git_path_template_var
+            ${revision_arg}
+            GIT_PATH "${git_path}"
+            ARCHIVE_NAME "${package_string}"
+            PACKAGE_GROUP_NAME "${package_name}"
+        )
+        SET(git_revision_arg     "GIT_REVISION ${revision_var}")
+        SET(git_archive_path_arg "GIT_PATH ${git_archive_path}")
+    ENDIF()
 
     STRING(TOUPPER "${package_name}" package_name_upper_orig)
     STRING(REGEX REPLACE "[^A-Z0-9]" "" package_name_upper         "${package_name_upper_orig}")
@@ -187,6 +202,8 @@ FUNCTION(_BRINGAUTO_PACKAGE package_name version_tag prefix suffix output_var)
             KEYWORDS ${keywords}
             TYPE ARCHIVE
             URI "${remote_file}"
+            ${git_revision_arg}
+            ${git_archive_path_arg}
             OUTPUT_PATH_VAR cache_path
         )
     ENDIF()

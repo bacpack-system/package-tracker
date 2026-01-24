@@ -27,6 +27,11 @@ SET(BA_PACKAGE_VARS__URI_TEMPLATE "NonExistentPath"
     "Storage URI template used to construct the package download URI"
 )
 
+SET(BA_PACKAGE_VARS__GIT_PATH_TEMPLATE "NonExistentPath"
+    CACHE INTERNAL
+    "Git path template to use. If non empty the URI_TEMPALTE represents remote Git repository. Takes same template params as URI_TEMPLATE."
+)
+
 
 
 ##

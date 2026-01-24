@@ -62,6 +62,7 @@ Setting variable values are highly affected by [CMCONF Global Config].
     - `<GIT_PATH>` - path to Packages in the repository for a given system. Set to `${CMDEF_DISTRO_ID}/${CMDEF_DISTRO_VERSION_ID}/${CMDEF_ARCHITECTURE}`,
     - `<PACKAGE_GROUP_NAME>` - package group name as stated in [BringAuto Packager Context]
     - `<ARCHIVE_NAME>` - full name of the Package. Set to ${package_group_name}_${version_tag}_${platform_string}.zip. The platform string is derived from CMDEF variables: `CMDEF_ARCHITECTURE`, `CMDEF_DISTRO_ID`, `CMDEF_DISTRO_VERSION_ID`.
+- `GIT_PATH_TEMPLATE` - [CMake-lib] template to construct path to the package in the repository. If set `URI_TEMPLATE` shall represents remote Git repository. It takes same template params as `URI_TEMPLATE`.
 
 ```cmake
 # Set REVISION to deps_update
