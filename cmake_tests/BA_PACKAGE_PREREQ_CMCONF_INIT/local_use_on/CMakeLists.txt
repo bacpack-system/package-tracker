@@ -1,3 +1,5 @@
+## BA_PACKAGE_LOCAL_USE=ON returns local file:// template and empty revision
+#
 IF(NOT DEFINED CMAKE_SCRIPT_MODE_FILE)
     CMAKE_MINIMUM_REQUIRED(VERSION 3.21)
     PROJECT(TEST_LOCAL_USE_ON)

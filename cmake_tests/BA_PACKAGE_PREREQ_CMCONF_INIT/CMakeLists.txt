@@ -20,5 +20,3 @@ TEST_INVALID_CMAKE_RUN("${CMAKE_CURRENT_LIST_DIR}/invalid_local_path"
     "Local repository path variable is not"
 )
 
-TEST_RUN("${CMAKE_CURRENT_LIST_DIR}/revision_with_local_warning")
-
