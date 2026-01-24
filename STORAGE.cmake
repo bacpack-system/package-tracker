@@ -8,7 +8,7 @@ SET(BA_PACKAGE_CMCONF_USE TRUE
     "Switch on for CMCONF use; off for testing purposes. Do not alter this setting unless you know what you are doing."
 )
 IF(BA_PACKAGE_CMCONF_USE)
-    BA_PACKAGE_PREREQ_CMCONF_INIT(template revision)
+    BA_PACKAGE_PREREQ_CMCONF_INIT(template revision git_archive_path_template)
 ENDIF()
 
 IF(BA_PACKAGE_HTTP_AUTHORIZATION_HEADER)
@@ -28,5 +28,6 @@ INCLUDE("${CMAKE_CURRENT_LIST_DIR}/BA_PACKAGE_VARS.cmake")
 INCLUDE("${CMAKE_CURRENT_LIST_DIR}/BA_PACKAGE.cmake")
 INCLUDE("${CMAKE_CURRENT_LIST_DIR}/BA_PACKAGE_DEPS.cmake")
 
-BA_PACKAGE_VARS_SET(REVISION     "${revision}")
-BA_PACKAGE_VARS_SET(URI_TEMPLATE "${template}")
+BA_PACKAGE_VARS_SET(REVISION          "${revision}")
+BA_PACKAGE_VARS_SET(URI_TEMPLATE      "${template}")
+BA_PACKAGE_VARS_SET(GIT_PATH_TEMPLATE "${git_archive_path_template}")
