@@ -24,6 +24,6 @@ TEST_RUN_AND_CHECK_OUTPUT("git_archive_with_http_header_warning"
 TEST_RUN("${CMAKE_CURRENT_LIST_DIR}/git_archive_path_returned")
 
 TEST_INVALID_CMAKE_RUN("${CMAKE_CURRENT_LIST_DIR}/invalid_local_path"
-    "Local repository path variable is not"
+    "Local repository path variable is not a directory"
 )
 
