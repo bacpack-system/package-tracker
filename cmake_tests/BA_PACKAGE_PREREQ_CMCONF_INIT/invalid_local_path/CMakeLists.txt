@@ -17,5 +17,5 @@ INCLUDE("${CMAKE_CURRENT_LIST_DIR}/../../../helpers/BA_PACKAGE_PREREQ.cmake")
 
 UNSET(ENV{BA_PACKAGE_LOCAL_PATH})
 
-BA_PACKAGE_PREREQ_CMCONF_INIT(result_template result_revision)
+BA_PACKAGE_PREREQ_CMCONF_INIT(result_template result_revision result_git_archive_path)
 
