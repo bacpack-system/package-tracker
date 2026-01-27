@@ -1,0 +1,77 @@
+##
+#
+# Mock CMLIB_DEPENDENCY module for testing BA_PACKAGE_LIBRARY
+#
+# This mock captures all arguments passed to CMLIB_DEPENDENCY without performing
+# actual dependency resolution. It allows tests to verify that BA_PACKAGE_LIBRARY
+# calls CMLIB_DEPENDENCY with correct arguments.
+#
+# Captured variables (CACHE INTERNAL):
+#   MOCK_CMLIB_DEPENDENCY_CALLED      - TRUE if function was called
+#   MOCK_CMLIB_DEPENDENCY_KEYWORDS    - List of KEYWORDS passed
+#   MOCK_CMLIB_DEPENDENCY_TYPE        - TYPE argument value
+#   MOCK_CMLIB_DEPENDENCY_URI         - URI argument value
+#   MOCK_CMLIB_DEPENDENCY_GIT_REVISION - GIT_REVISION argument value
+#   MOCK_CMLIB_DEPENDENCY_GIT_PATH    - GIT_PATH argument value
+#
+# The mock returns "/mock/cache/path" via OUTPUT_PATH_VAR if specified.
+#
+# Usage:
+#   Include this file AFTER BA_PACKAGE.cmake to override the real CMLIB_DEPENDENCY.
+#   Call BA_PACKAGE_LIBRARY, then verify MOCK_CMLIB_DEPENDENCY_* variables.
+#
+
+SET(MOCK_CMLIB_DEPENDENCY_CALLED FALSE
+    CACHE INTERNAL
+    "TRUE if CMLIB_DEPENDENCY was called"
+)
+SET(MOCK_CMLIB_DEPENDENCY_KEYWORDS ""
+    CACHE INTERNAL
+    "Captured KEYWORDS argument list"
+)
+SET(MOCK_CMLIB_DEPENDENCY_TYPE ""
+    CACHE INTERNAL
+    "Captured TYPE argument value"
+)
+SET(MOCK_CMLIB_DEPENDENCY_URI ""
+    CACHE INTERNAL
+    "Captured URI argument value"
+)
+SET(MOCK_CMLIB_DEPENDENCY_GIT_REVISION ""
+    CACHE INTERNAL
+    "Captured GIT_REVISION argument value"
+)
+SET(MOCK_CMLIB_DEPENDENCY_GIT_PATH ""
+    CACHE INTERNAL
+    "Captured GIT_PATH argument value"
+)
+
+##
+# Mock implementation of CMLIB_DEPENDENCY
+#
+# Captures all arguments and returns a mock path via OUTPUT_PATH_VAR.
+#
+FUNCTION(CMLIB_DEPENDENCY)
+    SET_PROPERTY(CACHE MOCK_CMLIB_DEPENDENCY_CALLED PROPERTY VALUE TRUE)
+    CMLIB_PARSE_ARGUMENTS(
+        MULTI_VALUE
+            KEYWORDS
+        ONE_VALUE
+            TYPE
+            URI
+            GIT_REVISION
+            GIT_PATH
+            OUTPUT_PATH_VAR
+        P_ARGN
+            ${ARGN}
+    )
+    SET_PROPERTY(CACHE MOCK_CMLIB_DEPENDENCY_KEYWORDS PROPERTY VALUE "${__KEYWORDS}")
+    SET_PROPERTY(CACHE MOCK_CMLIB_DEPENDENCY_TYPE PROPERTY VALUE "${__TYPE}")
+    SET_PROPERTY(CACHE MOCK_CMLIB_DEPENDENCY_URI PROPERTY VALUE "${__URI}")
+    SET_PROPERTY(CACHE MOCK_CMLIB_DEPENDENCY_GIT_REVISION PROPERTY VALUE "${__GIT_REVISION}")
+    SET_PROPERTY(CACHE MOCK_CMLIB_DEPENDENCY_GIT_PATH PROPERTY VALUE "${__GIT_PATH}")
+    IF(__OUTPUT_PATH_VAR)
+        SET(${__OUTPUT_PATH_VAR} "/mock/cache/path" PARENT_SCOPE)
+    ENDIF()
+ENDFUNCTION()
+

@@ -165,17 +165,16 @@ FUNCTION(_BRINGAUTO_PACKAGE package_name version_tag prefix suffix output_var)
             ARCHIVE_NAME "${package_string}"
             PACKAGE_GROUP_NAME "${package_name}"
         )
-        SET(git_revision_arg     "GIT_REVISION ${revision_var}")
-        SET(git_archive_path_arg "GIT_PATH ${git_archive_path}")
+        SET(git_revision_arg     GIT_REVISION "${revision_var}")
+        SET(git_archive_path_arg GIT_PATH "${git_archive_path}")
     ENDIF()
 
     STRING(TOUPPER "${package_name}" package_name_upper_orig)
-    STRING(REGEX REPLACE "[^A-Z0-9]" "" package_name_upper         "${package_name_upper_orig}")
-    STRING(REGEX REPLACE "[\\-]"     "" package_name_upper_wodash  "${package_name_upper_orig}")
+    STRING(REGEX REPLACE "[^A-Z0-9]" "" package_name_upper "${package_name_upper_orig}")
     IF(NOT package_name_upper)
         MESSAGE(FATAL_ERROR "Invalid package name: ${package_name}")
     ENDIF()
-    IF(NOT (package_name_upper STREQUAL package_name_upper_wodash))
+    IF(NOT (package_name_upper STREQUAL package_name_upper_orig))
         MESSAGE(WARNING "Package name ${package_name} contains invalid characters. It was normalized to form a proper CMLIB cache keyword: ${package_name} --> ${package_name_upper}")
     ENDIF()
 
