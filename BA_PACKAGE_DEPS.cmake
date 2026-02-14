@@ -185,7 +185,7 @@ FUNCTION(_BA_PACKAGE_DEPS_GET_DEPENDENCIES_FILES target filenames_for_patchelf_v
 
 		IF("${library_type}" STREQUAL "SHARED_LIBRARY" OR "${library_type}" STREQUAL "UNKNOWN_LIBRARY")
             # We need to install files manually, we cannot use INSTALL_IMPORTED_TARGETS because of symlinks
-			STRING(REGEX MATCH "^([^.]+.so)[.0-9]*$" is_shared "${filename}")
+			STRING(REGEX MATCH "^(.+.so)[.0-9]*$" is_shared "${filename}")
 			IF(NOT is_shared)
 				CONTINUE()
 			ENDIF()
