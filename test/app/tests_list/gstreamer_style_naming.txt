@@ -3,9 +3,28 @@
 # library name before .so (e.g. libfoo-1.0.so, libfoo-1.0.so.0, libfoo-1.0.so.0.1.0)
 #
 
-SET(TEST_USE_GST_LIBRARY TRUE)
-
 FUNCTION(TEST_PRERUN)
+    BUILD_INSTALL_DEPENDENCY("${DEPENDENCY_INSTALL_PREFIX}" 0.1.0 ${TESTLIST_BASE_PATH}/../lib/shared_library_gst)
+ENDFUNCTION()
+
+FUNCTION(TEST_POST_TARGET_SETUP)
+    CMLIB_PARSE_ARGUMENTS(
+        ONE_VALUE
+            TARGET
+        REQUIRED
+            TARGET
+        P_ARGN ${ARGN}
+    )
+
+    ADD_LIBRARY(shared-library-gst-shared SHARED IMPORTED GLOBAL)
+    SET_TARGET_PROPERTIES(shared-library-gst-shared
+        PROPERTIES
+            IMPORTED_LOCATION ${DEPENDENCY_INSTALL_DIR}/${CMDEF_LIBRARY_INSTALL_DIR}/shared-library-gst/shared-library-gst-1.0.so.0.1.0
+            IMPORTED_SONAME shared-library-gst-1.0.so.0
+    )
+
+    TARGET_LINK_LIBRARIES(${__TARGET} PUBLIC shared-library-gst-shared)
+    TARGET_COMPILE_DEFINITIONS(${__TARGET} PRIVATE USE_GST_LIBRARY)
 ENDFUNCTION()
 
 
