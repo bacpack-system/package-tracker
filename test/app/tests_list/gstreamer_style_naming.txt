@@ -1,0 +1,90 @@
+#
+# Test for gstreamer-style library naming where version is part of the
+# library name before .so (e.g. libfoo-1.0.so, libfoo-1.0.so.0, libfoo-1.0.so.0.1.0)
+#
+
+SET(TEST_USE_GST_LIBRARY TRUE)
+
+FUNCTION(TEST_PRERUN)
+ENDFUNCTION()
+
+
+
+#
+# ${DEPENDENCY_INSTALL_DIR}
+#   ├── include
+#   │   └── shared_out_of_dir_symlink.h
+#   └── lib
+#       ├── cmake
+#       │   └── shared-library-shared
+#       │       ├── shared-library-shared.cmake
+#       │       ├── shared-library-sharedConfig.cmake
+#       │       ├── shared-library-sharedConfigVersion.cmake
+#       │       └── shared-library-shared-release.cmake
+#       ├── libshared-library-shared.so
+#       ├── libshared-library-shared.so.5.67.1
+#       ├── shared-library-for-prerun
+#       │   ├── libshared-library-for-prerun-shared.so
+#       │   └── libshared-library-for-prerun-shared.so.1.2.3
+#       └── shared-library-gst
+#           ├── shared-library-gst-1.0.so
+#           ├── shared-library-gst-1.0.so.0
+#           └── shared-library-gst-1.0.so.0.1.0
+#
+MACRO(TEST_PRERUN_GET_EXPECTED_DEPENDENCY_FILE_LIST list_var)
+    LIST(APPEND ${list_var}
+        "lib/cmake/shared-library-shared/shared-library-sharedConfig.cmake"
+        "lib/cmake/shared-library-shared/shared-library-sharedConfigVersion.cmake"
+        "lib/cmake/shared-library-shared/shared-library-shared.cmake"
+        "lib/cmake/shared-library-shared/shared-library-shared-release.cmake"
+        "include/shared_out_of_dir_symlink.h"
+        "lib/libshared-library-shared.so"
+        "lib/libshared-library-shared.so.5.67.1"
+        "lib/shared-library-for-prerun/libshared-library-for-prerun-shared.so"
+        "lib/shared-library-for-prerun/libshared-library-for-prerun-shared.so.1.2.3"
+        "lib/shared-library-gst/shared-library-gst-1.0.so"
+        "lib/shared-library-gst/shared-library-gst-1.0.so.0"
+        "lib/shared-library-gst/shared-library-gst-1.0.so.0.1.0"
+    )
+ENDMACRO()
+
+
+
+#
+# Expected installed app structure
+#
+# ${INSTALL_DIR}
+#   ├── bin
+#   │   └── MyTestApp
+#   └── lib
+#       ├── cmake
+#       │   └── MyTestApp
+#       │       ├── MyTestApp.cmake
+#       │       ├── MyTestAppConfig.cmake
+#       │       ├── MyTestAppConfigVersion.cmake
+#       │       └── MyTestApp-release.cmake
+#       ├── libshared-library-for-prerun-shared.so
+#       ├── libshared-library-for-prerun-shared.so.1.2.3
+#       ├── shared-library-gst-1.0.so
+#       ├── shared-library-gst-1.0.so.0
+#       ├── shared-library-gst-1.0.so.0.1.0
+#       ├── libshared-library-shared.so
+#       └── libshared-library-shared.so.5.67.1
+#
+MACRO(TEST_GET_EXPECTED_INSTALLED_FILES_LIST list_var)
+    LIST(APPEND ${list_var}
+        "bin/MyTestApp"
+        "lib/cmake/MyTestApp/MyTestApp.cmake"
+        "lib/cmake/MyTestApp/MyTestAppConfig.cmake"
+        "lib/cmake/MyTestApp/MyTestAppConfigVersion.cmake"
+        "lib/cmake/MyTestApp/MyTestApp-release.cmake"
+        "lib/libshared-library-for-prerun-shared.so"
+        "lib/libshared-library-for-prerun-shared.so.1.2.3"
+        "lib/shared-library-gst-1.0.so"
+        "lib/shared-library-gst-1.0.so.0"
+        "lib/shared-library-gst-1.0.so.0.1.0"
+        "lib/libshared-library-shared.so"
+        "lib/libshared-library-shared.so.5.67.1"
+    )
+ENDMACRO()
+

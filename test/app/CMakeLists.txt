@@ -76,6 +76,11 @@ ENDIF()
 IF(NOT COMMAND TEST_PRERUN_GET_EXPECTED_DEPENDENCY_FILE_LIST)
     MESSAGE(FATAL_ERROR "Test is not valid. TEST_PRERUN_GET_EXPECTED_DEPENDENCY_FILE_LIST function not found.")
 ENDIF()
+
+IF(TEST_USE_GST_LIBRARY)
+    BUILD_INSTALL_DEPENDENCY("${DEPENDENCY_INSTALL_PREFIX}" 0.1.0 ${CMAKE_CURRENT_LIST_DIR}/lib/shared_library_gst)
+ENDIF()
+
 TEST_PRERUN(
     VERSION     "1.2.3"
     INSTALL_DIR "${DEPENDENCY_INSTALL_DIR}/lib/shared-library-for-prerun"
@@ -99,6 +104,15 @@ SET_TARGET_PROPERTIES(shared-library-for-prerun-shared
 
 )
 
+IF(TEST_USE_GST_LIBRARY)
+    ADD_LIBRARY(shared-library-gst-shared SHARED IMPORTED)
+    SET_TARGET_PROPERTIES(shared-library-gst-shared
+        PROPERTIES
+            IMPORTED_LOCATION ${DEPENDENCY_INSTALL_DIR}/${CMDEF_LIBRARY_INSTALL_DIR}/shared-library-gst/shared-library-gst-1.0.so.0.1.0
+            IMPORTED_SONAME shared-library-gst-1.0.so.0
+    )
+ENDIF()
+
 CMDEF_ADD_EXECUTABLE(
     TARGET ${PROJECT_NAME}
     SOURCES main.c
@@ -107,6 +121,11 @@ CMDEF_ADD_EXECUTABLE(
 TARGET_LINK_LIBRARIES(${PROJECT_NAME} PUBLIC
     shared-library-shared::shared-library-shared
     shared-library-for-prerun-shared)
+
+IF(TEST_USE_GST_LIBRARY)
+    TARGET_LINK_LIBRARIES(${PROJECT_NAME} PUBLIC shared-library-gst-shared)
+    TARGET_COMPILE_DEFINITIONS(${PROJECT_NAME} PRIVATE USE_GST_LIBRARY)
+ENDIF()
 
 CMDEF_INSTALL(TARGET ${PROJECT_NAME} NAMESPACE ${PROJECT_NAME}::)
 
