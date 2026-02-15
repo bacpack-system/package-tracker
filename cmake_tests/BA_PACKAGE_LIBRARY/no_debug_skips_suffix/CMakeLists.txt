@@ -11,7 +11,6 @@ ENDIF()
 
 FIND_PACKAGE(CMLIB REQUIRED)
 
-SET(MOCK_CMLIB_STORAGE_TEMPLATE_INSTANCE_OUTPUT "https://example.com/main/mock_distro/0.0.0/mock_arch/mypkg/libmypkg-dev_v1.0.0_mock_arch_mock_distro_0.0.0.zip" CACHE INTERNAL "")
 INCLUDE("${CMAKE_CURRENT_LIST_DIR}/../../include_general.cmake")
 
 SET(CMAKE_BUILD_TYPE "Debug")
@@ -23,13 +22,23 @@ BA_PACKAGE_LIBRARY(mypkg v1.0.0 NO_DEBUG ON)
 
 TEST_VAR_TRUE(MOCK_CMLIB_DEPENDENCY_CALLED)
 
-STRING(FIND "${MOCK_CMLIB_DEPENDENCY_URI}" "libmypkgd-dev" found_debug_suffix)
+STRING(FIND "${MOCK_CMLIB_STORAGE_TEMPLATE_INSTANCE_ARCHIVE_NAME}" "libmypkgd-dev" found_debug_suffix)
 IF(NOT found_debug_suffix EQUAL -1)
-    MESSAGE(FATAL_ERROR "URI should NOT contain 'd-dev' suffix when NO_DEBUG=ON: ${MOCK_CMLIB_DEPENDENCY_URI}")
+    MESSAGE(FATAL_ERROR "ARCHIVE_NAME should NOT contain 'libmypkgd-dev' when NO_DEBUG=ON: ${MOCK_CMLIB_STORAGE_TEMPLATE_INSTANCE_ARCHIVE_NAME}")
 ENDIF()
 
-STRING(FIND "${MOCK_CMLIB_DEPENDENCY_URI}" "libmypkg-dev" found_release_suffix)
+STRING(FIND "${MOCK_CMLIB_STORAGE_TEMPLATE_INSTANCE_ARCHIVE_NAME}" "libmypkg-dev" found_release_suffix)
 IF(found_release_suffix EQUAL -1)
-    MESSAGE(FATAL_ERROR "URI should contain '-dev' suffix (no 'd'): ${MOCK_CMLIB_DEPENDENCY_URI}")
+    MESSAGE(FATAL_ERROR "ARCHIVE_NAME does not contain 'libmypkg-dev': ${MOCK_CMLIB_STORAGE_TEMPLATE_INSTANCE_ARCHIVE_NAME}")
+ENDIF()
+
+LIST(FIND MOCK_CMLIB_DEPENDENCY_KEYWORDS "RELEASE" idx_release)
+IF(NOT idx_release EQUAL -1)
+    MESSAGE(FATAL_ERROR "KEYWORDS should NOT contain RELEASE when NO_DEBUG=ON: ${MOCK_CMLIB_DEPENDENCY_KEYWORDS}")
+ENDIF()
+
+LIST(FIND MOCK_CMLIB_DEPENDENCY_KEYWORDS "DEBUG" idx_debug)
+IF(NOT idx_debug EQUAL -1)
+    MESSAGE(FATAL_ERROR "KEYWORDS should NOT contain DEBUG when NO_DEBUG=ON: ${MOCK_CMLIB_DEPENDENCY_KEYWORDS}")
 ENDIF()
 

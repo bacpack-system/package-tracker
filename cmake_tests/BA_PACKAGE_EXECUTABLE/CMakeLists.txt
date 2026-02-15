@@ -9,6 +9,8 @@ INCLUDE("${CMAKE_CURRENT_LIST_DIR}/../TEST.cmake")
 
 TEST_RUN("${CMAKE_CURRENT_LIST_DIR}/release_basic")
 TEST_RUN("${CMAKE_CURRENT_LIST_DIR}/debug_suffix")
+TEST_RUN("${CMAKE_CURRENT_LIST_DIR}/no_debug_skips_suffix")
 TEST_RUN("${CMAKE_CURRENT_LIST_DIR}/output_path_var_propagates")
 TEST_RUN("${CMAKE_CURRENT_LIST_DIR}/cmake_prefix_path_updated")
+TEST_RUN("${CMAKE_CURRENT_LIST_DIR}/cache_only_forwarding")
 

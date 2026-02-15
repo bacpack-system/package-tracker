@@ -17,11 +17,14 @@ TEST_RUN_AND_CHECK_OUTPUT("env_var_with_local_use_warning"
 )
 
 TEST_RUN_AND_CHECK_OUTPUT("git_archive_with_http_header_warning"
-    WARNING_MESSAGE "BA_PACKAGE_HTTP_AUTHORIZATION_HEADER is defined together with.*BA_PACKAGE_GIT_ARCHIVE_PATH_TEMPLATE.*ARCHIVE_PATH_TEMPLATE implies the.*URI type is GIT but HTTP_HEADERS are used only for raw HTTP Downloads"
+    WARNING_MESSAGE "BA_PACKAGE_HTTP_HEADER is defined together with.*BA_PACKAGE_GIT_ARCHIVE_PATH_TEMPLATE.*ARCHIVE_PATH_TEMPLATE implies the.*URI type is GIT but HTTP_HEADERS are used only for raw HTTP Downloads"
     ALWAYS_SCRIPT_MODE ON
 )
 
 TEST_RUN("${CMAKE_CURRENT_LIST_DIR}/git_archive_path_returned")
+TEST_RUN("${CMAKE_CURRENT_LIST_DIR}/http_header_returned")
+TEST_RUN("${CMAKE_CURRENT_LIST_DIR}/escape_template_args_on_returned")
+TEST_RUN("${CMAKE_CURRENT_LIST_DIR}/escape_template_args_off_returned")
 
 TEST_INVALID_CMAKE_RUN("${CMAKE_CURRENT_LIST_DIR}/invalid_local_path"
     "Local repository path variable is not a directory"

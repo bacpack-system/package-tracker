@@ -1,6 +1,9 @@
 #
 #
 
+FUNCTION(TEST_POST_TARGET_SETUP target)
+ENDFUNCTION()
+
 #
 # More documentation can be found inside the README
 #

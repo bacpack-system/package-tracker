@@ -2,6 +2,9 @@
 # Test for standard library installation without modifications
 #
 
+FUNCTION(TEST_POST_TARGET_SETUP target)
+ENDFUNCTION()
+
 #
 FUNCTION(TEST_PRERUN)
     MESSAGE(STATUS "Test STANDARD_INSTALL start")
