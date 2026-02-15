@@ -21,6 +21,11 @@ FIND_PACKAGE(CMLIB COMPONENTS CMUTIL CMDEF)
 #
 # OUTPUT_PATH_VAR - name of the variable where the absolute path of the package root will be stored. 
 #
+# Wrapper arounf BA_PACKAGE
+# - adds package path to CMAKE_PREFIX_PATH
+# - propagates output variables
+# - manage prefixes and suffixes
+#
 # <function>(
 #   <package_name>
 #   <version_tag>
@@ -45,7 +50,7 @@ FUNCTION(BA_PACKAGE_LIBRARY package_name version_tag)
         SET(suffix "d")
     ENDIF()
 
-    _BRINGAUTO_PACKAGE(${package_name} ${version_tag} "lib" "${suffix}-dev" output_var
+    BA_PACKAGE(${package_name} ${version_tag} "lib" "${suffix}-dev" output_var
         CACHE_ONLY           ${__CACHE_ONLY}
         NO_DEBUG             ${__NO_DEBUG}
     )
@@ -64,7 +69,20 @@ ENDFUNCTION()
 
 ##
 #
-# Download, cache and populate Executable package
+# Download, cache and populate Executable package.
+#
+# CACHE_ONLY - if specified no download is performed. The package
+# must be cached by a previous call to BA_PACKAGE_EXECUTABLE() without CACHE_ONLY switch.
+#
+# NO_DEBUG - use release, not debug version of the package (can be used if release and debug
+# variant are equal)
+#
+# OUTPUT_PATH_VAR - name of the variable where the absolute path of the package root will be stored. 
+#
+# Wrapper arounf BA_PACKAGE
+# - adds package path to CMAKE_PREFIX_PATH
+# - propagates output variables
+# - manage prefixes and suffixes
 #
 # <function>(
 #   <package_name>
@@ -90,7 +108,7 @@ FUNCTION(BA_PACKAGE_EXECUTABLE package_name version_tag)
         SET(suffix "d")
     ENDIF()
 
-    _BRINGAUTO_PACKAGE(${package_name} ${version_tag} "" "${suffix}" output_var
+    BA_PACKAGE(${package_name} ${version_tag} "" "${suffix}" output_var
         CACHE_ONLY           ${__CACHE_ONLY}
         NO_DEBUG             ${__NO_DEBUG}
     )
@@ -107,7 +125,7 @@ ENDFUNCTION()
 
 
 
-## Helper
+##
 #
 # Download, cache and populate package represented by 'package_name'
 # and concretized by 'prefix' and 'suffix'.
@@ -120,7 +138,7 @@ ENDFUNCTION()
 #   [NO_DEBUG {ON|OFF}]
 # )
 #
-FUNCTION(_BRINGAUTO_PACKAGE package_name version_tag prefix suffix output_var)
+FUNCTION(BA_PACKAGE package_name version_tag prefix suffix output_var)
     CMLIB_PARSE_ARGUMENTS(
         OPTIONS
             CACHE_ONLY
