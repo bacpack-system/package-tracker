@@ -12,7 +12,7 @@ ENDIF()
 FIND_PACKAGE(CMLIB REQUIRED)
 
 SET(MOCK_CMLIB_STORAGE_TEMPLATE_INSTANCE_OUTPUT "https://example.com/main/mock_distro/0.0.0/mock_arch/mypkg/mypkg_v1.0.0_mock_arch_mock_distro_0.0.0.zip" CACHE INTERNAL "")
-INCLUDE("${CMAKE_CURRENT_LIST_DIR}/../../BA_PACKAGE_LIBRARY/include_general.cmake")
+INCLUDE("${CMAKE_CURRENT_LIST_DIR}/../../include_general.cmake")
 
 SET(CMAKE_BUILD_TYPE "Release")
 BA_PACKAGE_VARS_SET(REVISION "main")

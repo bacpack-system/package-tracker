@@ -1,5 +1,5 @@
 ##
-# Common includes for BA_PACKAGE_LIBRARY tests
+# Common includes for BA_PACKAGE* tests
 #
 # Provides standard test setup including VARS, TEST framework, BA_PACKAGE modules,
 # and all standard mocks (CMDEF_VARS, CMUTIL, CMLIB_STORAGE, CMLIB_DEPENDENCY).
@@ -10,7 +10,7 @@
 # set it BEFORE including this file.
 #
 
-INCLUDE("${CMAKE_CURRENT_LIST_DIR}/../VARS.cmake")
+INCLUDE("${CMAKE_CURRENT_LIST_DIR}/VARS.cmake")
 INCLUDE("${CMAKE_TESTS_ROOT}/TEST.cmake")
 
 INCLUDE("${PACKAGER_PROJECT_ROOT}/BA_PACKAGE_VARS.cmake")

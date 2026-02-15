@@ -1,22 +1,22 @@
 ##
 # Test: Invalid package name (all special characters) emits FATAL_ERROR
 #
-# Verifies that BA_PACKAGE_LIBRARY emits FATAL_ERROR when the package name
+# Verifies that BA_PACKAGE emits FATAL_ERROR when the package name
 # normalizes to an empty string (e.g., "---" becomes "").
 #
 IF(NOT DEFINED CMAKE_SCRIPT_MODE_FILE)
     CMAKE_MINIMUM_REQUIRED(VERSION 3.21)
-    PROJECT(TEST_INVALID_PACKAGE_NAME_ERROR)
+    PROJECT(TEST_BA_PACKAGE_INVALID_PACKAGE_NAME_ERROR)
 ENDIF()
 
 FIND_PACKAGE(CMLIB REQUIRED)
 
-INCLUDE("${CMAKE_CURRENT_LIST_DIR}/../include_general.cmake")
+INCLUDE("${CMAKE_CURRENT_LIST_DIR}/../../include_general.cmake")
 
 SET(CMAKE_BUILD_TYPE "Release")
 BA_PACKAGE_VARS_SET(REVISION "main")
 BA_PACKAGE_VARS_SET(URI_TEMPLATE "https://example.com/<REVISION>/<GIT_PATH>/<PACKAGE_GROUP_NAME>/<ARCHIVE_NAME>")
 BA_PACKAGE_VARS_SET(GIT_PATH_TEMPLATE "")
 
-BA_PACKAGE_LIBRARY("---" v1.0.0)
+BA_PACKAGE("---" v1.0.0 "" "" output_path)
 

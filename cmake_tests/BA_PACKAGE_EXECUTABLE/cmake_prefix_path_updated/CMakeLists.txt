@@ -1,12 +1,12 @@
 ##
 # Test: CMAKE_PREFIX_PATH is updated with the cached package path
 #
-# Verifies that BA_PACKAGE_LIBRARY appends the package path to CMAKE_PREFIX_PATH
+# Verifies that BA_PACKAGE_EXECUTABLE appends the package path to CMAKE_PREFIX_PATH
 # so that find_package() can locate the installed package.
 #
 IF(NOT DEFINED CMAKE_SCRIPT_MODE_FILE)
     CMAKE_MINIMUM_REQUIRED(VERSION 3.21)
-    PROJECT(TEST_CMAKE_PREFIX_PATH_UPDATED)
+    PROJECT(TEST_BA_PACKAGE_EXECUTABLE_CMAKE_PREFIX_PATH_UPDATED)
 ENDIF()
 
 FIND_PACKAGE(CMLIB REQUIRED)
@@ -20,7 +20,7 @@ BA_PACKAGE_VARS_SET(GIT_PATH_TEMPLATE "")
 
 SET(CMAKE_PREFIX_PATH "")
 
-BA_PACKAGE_LIBRARY(mypkg v1.0.0)
+BA_PACKAGE_EXECUTABLE(mypkg v1.0.0)
 
 LIST(FIND CMAKE_PREFIX_PATH "/mock/cache/path" idx_found)
 IF(idx_found EQUAL -1)
