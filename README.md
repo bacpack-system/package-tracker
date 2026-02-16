@@ -79,14 +79,14 @@ BA_PACKAGE_LIBRARY(nlohmann-json v3.10.5)
 - Verify REVISION and URI_TEMPLATE (see CMCONF Global Config) point to the right Package Repository and branch.
 - If using a local Package Repository, confirm BA_PACKAGE_LOCAL_PATH points to the correct directory and that the expected package archive exists.
 
-### Q: Package conflict if I want to build my project by second build type
+### Q: Package conflict if I want to build my project by another build type
 
-If you want to use the same cache path for Release and Debug build types
-you must ensure that the package differs between Debug/Release build configs
+If the same cache path is used for Release and Debug build types
+it must ensured that the package differs between Debug/Release build configs
 and does not have files with the same paths.
 
-If you have a package that has the same content for Debug and Release you need to
-use `NO_DEBUG ON` in `BA_PACKAGE_LIBRARY`; otherwise the conflict will occur.
+If the package has the same content for Debug and Release
+ `NO_DEBUG ON` flag shall be used in `BA_PACKAGE_LIBRARY`; otherwise the conflict will occur.
 
 (Look at [example/] for quick overview)
 
