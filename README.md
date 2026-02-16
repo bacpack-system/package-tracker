@@ -71,6 +71,12 @@ BA_PACKAGE_VARS_SET(REVISION deps_update)
 BA_PACKAGE_LIBRARY(nlohmann-json v3.10.5)
 ```
 
+## Tests
+
+- [cmake_tests/] — unit tests for CMake module logic using mocks, no network or build required.
+- [test/] — integration tests that build a real application, install dependencies, and verify installed file structure.
+
+
 ## FAQ
 
 ### Q: Package not found even if it exists in the repository
@@ -90,10 +96,10 @@ If the package has the same content for Debug and Release
 
 (Look at [example/] for quick overview)
 
-
-
 [BringAuto Packager]: https://github.com/bacpack-system/packager
 [CMCONF Global Config]: ./doc/GlobalConfiguration.md
 [CMake-lib]: https://github.com/cmakelib/cmakelib
 [BringAuto Packager Context]: https://github.com/bacpack-system/packager/blob/master/doc/ContextStructure.md
 [example/]: example/
+[cmake_tests/]: cmake_tests/
+[test/]: test/

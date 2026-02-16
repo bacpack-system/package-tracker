@@ -140,8 +140,17 @@ TEST_POST_TARGET_SETUP(...)
 
 ![BringAuto Packager Test Activity](img/BAPackageTestActivity.svg)
 
+## Difference from [cmake_tests/]
+
+`test/` — integration tests that build a real application, install dependencies, and verify installed file structure.
+
+[cmake_tests/] — unit tests for CMake module logic using mocks, no network or build required.
+
 ## TODO
 
 - Rename `shared_library` and `shared_library_for_prerun`
   to `library` and `library_for_prerun` to avoid duplicities.
   (system automatically adds the -shared suffix to the resulting library names...)
+
+
+[cmake_tests/]: ../cmake_tests/
