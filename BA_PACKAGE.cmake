@@ -165,6 +165,17 @@ FUNCTION(BA_PACKAGE package_name version_tag prefix suffix output_var)
     ENDIF()
     SET(git_path "${CMDEF_DISTRO_ID}/${CMDEF_DISTRO_VERSION_ID}/${machine}")
 
+    BA_PACKAGE_VARS_GET(ESCAPE_TEMPLATE_ARGS escape_template_args)
+    IF(escape_template_args)
+        STRING(REPLACE "/" "%2F" revision_var      "${revision_var}")
+        STRING(REPLACE "/" "%2F" git_path           "${git_path}")
+        STRING(REPLACE "/" "%2F" package_string     "${package_string}")
+        STRING(REPLACE "/" "%2F" package_name       "${package_name}")
+        IF(revision_arg)
+            SET(revision_arg REVISION "${revision_var}")
+        ENDIF()
+    ENDIF()
+
     BA_PACKAGE_VARS_GET(URI_TEMPLATE template_var)
     CMLIB_STORAGE_TEMPLATE_INSTANCE(remote_file template_var
         ${revision_arg}

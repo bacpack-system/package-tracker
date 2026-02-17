@@ -15,15 +15,18 @@ SET(TEST_CMCONF_BA_PACKAGE_HTTP_HEADER "Authorization: Bearer token")
 SET(TEST_CMCONF_BA_PACKAGE_URI_REVISION "v1.0.0")
 SET(TEST_CMCONF_BA_PACKAGE_URI_TEMPLATE_REMOTE "https://example.com/packages/<PACKAGE_NAME>")
 SET(TEST_CMCONF_BA_PACKAGE_GIT_ARCHIVE_PATH_TEMPLATE "packages/<GIT_PATH>/<PACKAGE_GROUP_NAME>/<ARCHIVE_NAME>")
+SET(TEST_CMCONF_BA_PACKAGE_TEMPLATE_ARGS_URI_ESCAPE OFF)
 
 INCLUDE("${CMAKE_TESTS_ROOT}/mock/CMCONF.cmake")
 INCLUDE("${PACKAGER_PROJECT_ROOT}/helpers/BA_PACKAGE_PREREQ.cmake")
 
 UNSET(ENV{BA_PACKAGE_LOCAL_PATH})
 
-BA_PACKAGE_PREREQ_CMCONF_INIT(result_template result_revision result_git_archive_path)
+BA_PACKAGE_PREREQ_CMCONF_INIT(result_template result_revision result_git_archive_path result_http_header result_escape)
 
 TEST_VAR_EQUALS_LITERAL(result_template "https://example.com/packages/<PACKAGE_NAME>")
 TEST_VAR_EQUALS_LITERAL(result_revision "v1.0.0")
 TEST_VAR_EQUALS_LITERAL(result_git_archive_path "packages/<GIT_PATH>/<PACKAGE_GROUP_NAME>/<ARCHIVE_NAME>")
+TEST_VAR_EQUALS_LITERAL(result_http_header "Authorization: Bearer token")
+TEST_VAR_EQUALS_LITERAL(result_escape "OFF")
 

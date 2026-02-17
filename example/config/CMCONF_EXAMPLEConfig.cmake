@@ -21,6 +21,7 @@ CMCONF_SET(BA_PACKAGE_HTTP_HEADER "${credentials}")
 #
 CMCONF_SET(BA_PACKAGE_URI_REVISION main)
 CMCONF_SET(BA_PACKAGE_URI_TEMPLATE_REMOTE "https://gitea.example.com/username/repository/media/<REVISION>/package/<GIT_PATH>/<PACKAGE_GROUP_NAME>/<ARCHIVE_NAME>")
+CMCONF_SET(BA_PACKAGE_TEMPLATE_ARGS_URI_ESCAPE OFF)
 
 #
 # Gitea hosted public Package Repository:

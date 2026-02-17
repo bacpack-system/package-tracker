@@ -18,11 +18,13 @@ INCLUDE("${PACKAGER_PROJECT_ROOT}/helpers/BA_PACKAGE_PREREQ.cmake")
 
 SET(ENV{BA_PACKAGE_LOCAL_PATH} "/tmp")
 
-BA_PACKAGE_PREREQ_CMCONF_INIT(result_template result_revision result_git_archive_path)
+BA_PACKAGE_PREREQ_CMCONF_INIT(result_template result_revision result_git_archive_path result_http_header result_escape)
 
 UNSET(ENV{BA_PACKAGE_LOCAL_PATH})
 
 TEST_VAR_EQUALS_LITERAL(result_template "file:///tmp/package/<GIT_PATH>/<PACKAGE_GROUP_NAME>/<ARCHIVE_NAME>")
 TEST_VAR_EQUALS_LITERAL(result_revision "")
 TEST_VAR_EQUALS_LITERAL(result_git_archive_path "")
+TEST_VAR_EQUALS_LITERAL(result_http_header "")
+TEST_VAR_EQUALS_LITERAL(result_escape "")
 

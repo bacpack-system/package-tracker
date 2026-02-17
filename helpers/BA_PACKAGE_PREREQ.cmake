@@ -37,7 +37,7 @@ ENDFUNCTION()
 #   <revision_output_var>  // variable name to receive the revision (parent scope)
 # )
 #
-FUNCTION(BA_PACKAGE_PREREQ_CMCONF_INIT template_output_var revision_output_var git_archive_path_template_output_var http_header_output_var template_args_uri_escape)
+FUNCTION(BA_PACKAGE_PREREQ_CMCONF_INIT template_output_var revision_output_var git_archive_path_template_output_var http_header_output_var template_args_uri_escape_output_var)
     #
     # Let's get variables to ensure they are defined
     # By a Global Config for their appropriate use...
@@ -50,6 +50,7 @@ FUNCTION(BA_PACKAGE_PREREQ_CMCONF_INIT template_output_var revision_output_var g
         CMCONF_GET(BA_PACKAGE_URI_REVISION)
         CMCONF_GET(BA_PACKAGE_GIT_ARCHIVE_PATH_TEMPLATE)
         CMCONF_GET(BA_PACKAGE_URI_TEMPLATE_REMOTE)
+        CMCONF_GET(BA_PACKAGE_TEMPLATE_ARGS_URI_ESCAPE)
     ENDIF()
 
     SET(template)
@@ -89,5 +90,5 @@ FUNCTION(BA_PACKAGE_PREREQ_CMCONF_INIT template_output_var revision_output_var g
     SET(${revision_output_var} "${revision}" PARENT_SCOPE)
     SET(${git_archive_path_template_output_var} "${git_archive_path}" PARENT_SCOPE)
     SET(${http_header_output_var} "${http_header}" PARENT_SCOPE)
-    SET(${template_args_uri_escape} "${template_args_uri_escape}" PARENT_SCOPE)
+    SET(${template_args_uri_escape_output_var} "${template_args_uri_escape}" PARENT_SCOPE)
 ENDFUNCTION()
