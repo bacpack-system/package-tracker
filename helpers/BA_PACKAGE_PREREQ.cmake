@@ -37,7 +37,7 @@ ENDFUNCTION()
 #   <revision_output_var>  // variable name to receive the revision (parent scope)
 # )
 #
-FUNCTION(BA_PACKAGE_PREREQ_CMCONF_INIT template_output_var revision_output_var git_archive_path_template_output_var)
+FUNCTION(BA_PACKAGE_PREREQ_CMCONF_INIT template_output_var revision_output_var git_archive_path_template_output_var http_header_output_var template_args_uri_escape)
     #
     # Let's get variables to ensure they are defined
     # By a Global Config for their appropriate use...
@@ -46,7 +46,7 @@ FUNCTION(BA_PACKAGE_PREREQ_CMCONF_INIT template_output_var revision_output_var g
     IF(BA_PACKAGE_LOCAL_USE)
         CMCONF_GET(BA_PACKAGE_LOCAL_PATH)
     ELSE()
-        CMCONF_GET(BA_PACKAGE_HTTP_AUTHORIZATION_HEADER)
+        CMCONF_GET(BA_PACKAGE_HTTP_HEADER)
         CMCONF_GET(BA_PACKAGE_URI_REVISION)
         CMCONF_GET(BA_PACKAGE_GIT_ARCHIVE_PATH_TEMPLATE)
         CMCONF_GET(BA_PACKAGE_URI_TEMPLATE_REMOTE)
@@ -77,8 +77,8 @@ FUNCTION(BA_PACKAGE_PREREQ_CMCONF_INIT template_output_var revision_output_var g
         MESSAGE(WARNING "Revision is defined but local repository is used.")
     ENDIF()
     
-    IF(BA_PACKAGE_GIT_ARCHIVE_PATH_TEMPLATE AND BA_PACKAGE_HTTP_AUTHORIZATION_HEADER)
-        MESSAGE(WARNING "BA_PACKAGE_HTTP_AUTHORIZATION_HEADER is defined together with BA_PACKAGE_GIT_ARCHIVE_PATH_TEMPLATE. ARCHIVE_PATH_TEMPLATE implies the URI type is GIT but HTTP_HEADERS are used only for raw HTTP Downloads!")
+    IF(BA_PACKAGE_GIT_ARCHIVE_PATH_TEMPLATE AND BA_PACKAGE_HTTP_HEADER)
+        MESSAGE(WARNING "BA_PACKAGE_HTTP_HEADER is defined together with BA_PACKAGE_GIT_ARCHIVE_PATH_TEMPLATE. ARCHIVE_PATH_TEMPLATE implies the URI type is GIT but HTTP_HEADERS are used only for raw HTTP Downloads!")
     ENDIF()
 
     SET(${template_output_var} "${template}" PARENT_SCOPE)

@@ -32,6 +32,16 @@ SET(BA_PACKAGE_VARS__GIT_PATH_TEMPLATE "NonExistentPath"
     "Git path template to use. If non empty the URI_TEMPALTE represents remote Git repository. Takes same template params as URI_TEMPLATE."
 )
 
+SET(BA_PACKAGE_VARS__HTTP_HEADER "NonExistentHTTPHEADER"
+    CACHE INTERNAL
+    "HTTP header to use when accessing Package Repository over HTTP."
+)
+
+SET(BA_PACKAGE_VARS__ESCAPE_TEMPLATE_ARGS OFF
+    CACHE INTERNAL
+    "Escape template arguments when constructing the package download URI"
+)
+
 
 
 ##

@@ -11,13 +11,13 @@ IF(BA_PACKAGE_CMCONF_USE)
     BA_PACKAGE_PREREQ_CMCONF_INIT(template revision git_archive_path_template)
 ENDIF()
 
-IF(BA_PACKAGE_HTTP_AUTHORIZATION_HEADER)
+IF(BA_PACKAGE_HTTP_HEADER)
     IF(CMLIB_FILE_DOWNLOAD_HTTP_HEADER)
-        MESSAGE(WARNING "HTTP Authorization header is defined but CMLIB_FILE_DOWNLOAD_HTTP_HEADER is already set. Using BA_PACKAGE_HTTP_AUTHORIZATION_HEADER.")
+        MESSAGE(WARNING "BA_PACKAGE_HTTP_HEADER is defined but CMLIB_FILE_DOWNLOAD_HTTP_HEADER is already set. Using BA_PACKAGE_HTTP_HEADER.")
     ENDIF()
-    SET(CMLIB_FILE_DOWNLOAD_HTTP_HEADER "Authorization: ${BA_PACKAGE_HTTP_AUTHORIZATION_HEADER}"
+    SET(CMLIB_FILE_DOWNLOAD_HTTP_HEADER "${BA_PACKAGE_HTTP_HEADER}"
         CACHE STRING
-        "HTTP Authorization header set by Package Tracker to access the private repository"
+        "HTTP header set by Package Tracker to access the private repository"
         FORCE
     )
 ENDIF()

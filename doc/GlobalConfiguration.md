@@ -23,7 +23,7 @@ to [CMake User Package Registry]. [CMCONF Example] can be found in [CMCONF] repo
 | BA_PACKAGE_LOCAL_PATH | Absolute Path to the local Package Repository. Used if BA_PACKAGE_LOCAL_USE is set to ON. If ENV variable BA_PACKAGE_LOCAL_PATH is set it is used instead of this CMCONF setting. Resulting value is passed to URI_TEMPLATE setting variable as "file://<local_path>/package/<GIT_PATH>/<PACKAGE_GROUP_NAME>/<ARCHIVE_NAME>" |
 | BA_PACKAGE_URI_REVISION | Git revision to use when accessing Package Repository. Used if BA_PACKAGE_LOCAL_USE is set to OFF. |
 | BA_PACKAGE_URI_TEMPLATE_REMOTE | [CMake-lib] template to construct URI to download package from remote Package Repository. Passed to URI_TEMPLATE setting variable. Used if BA_PACKAGE_LOCAL_USE is set to OFF. |
-| BA_PACKAGE_HTTP_AUTHORIZATION_HEADER | HTTP Authorization header to use when accessing Package Repository. Used if BA_PACKAGE_LOCAL_USE is set to OFF. |
+| BA_PACKAGE_HTTP_HEADER | HTTP header to use when accessing Package Repository. Used if BA_PACKAGE_LOCAL_USE is set to OFF. |
 
 ## Environment Variables
 

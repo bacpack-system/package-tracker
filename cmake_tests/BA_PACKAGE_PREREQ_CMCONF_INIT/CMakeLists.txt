@@ -17,7 +17,7 @@ TEST_RUN_AND_CHECK_OUTPUT("env_var_with_local_use_warning"
 )
 
 TEST_RUN_AND_CHECK_OUTPUT("git_archive_with_http_header_warning"
-    WARNING_MESSAGE "BA_PACKAGE_HTTP_AUTHORIZATION_HEADER is defined together with.*BA_PACKAGE_GIT_ARCHIVE_PATH_TEMPLATE.*ARCHIVE_PATH_TEMPLATE implies the.*URI type is GIT but HTTP_HEADERS are used only for raw HTTP Downloads"
+    WARNING_MESSAGE "BA_PACKAGE_HTTP_HEADER is defined together with.*BA_PACKAGE_GIT_ARCHIVE_PATH_TEMPLATE.*ARCHIVE_PATH_TEMPLATE implies the.*URI type is GIT but HTTP_HEADERS are used only for raw HTTP Downloads"
     ALWAYS_SCRIPT_MODE ON
 )
 
