@@ -226,6 +226,7 @@ FUNCTION(BA_PACKAGE package_name version_tag prefix suffix output_var)
         CMLIB_DEPENDENCY(
             KEYWORDS ${keywords}
             TYPE ARCHIVE
+            ARCHIVE_TYPE ZIP
             URI "${remote_file}"
             ${git_revision_arg}
             ${git_archive_path_arg}
