@@ -200,9 +200,11 @@ FUNCTION(BA_PACKAGE package_name version_tag prefix suffix output_var)
     IF(NOT package_name_upper)
         MESSAGE(FATAL_ERROR "Invalid package name: ${package_name}")
     ENDIF()
-    IF(NOT (package_name_upper STREQUAL package_name_upper_orig))
-        MESSAGE(WARNING "Package name ${package_name} contains invalid characters. It was normalized to form a proper CMLIB cache keyword: ${package_name} --> ${package_name_upper}")
-    ENDIF()
+
+    # Not sure if this is usefull? In production it feels weird. The only reason is to not have accidental collisions....
+    #IF(NOT (package_name_upper STREQUAL package_name_upper_orig))
+    #    MESSAGE(WARNING "Package name ${package_name} contains invalid characters. It was normalized to form a proper CMLIB cache keyword: ${package_name} --> ${package_name_upper}")
+    #ENDIF()
 
     SET(keywords BACPACK ${package_name_upper})
 
