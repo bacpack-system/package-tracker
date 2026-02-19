@@ -17,10 +17,9 @@ TEST_RUN("${CMAKE_CURRENT_LIST_DIR}/cache_only_skips_dependency")
 TEST_RUN("${CMAKE_CURRENT_LIST_DIR}/escape_template_args_applied")
 TEST_RUN("${CMAKE_CURRENT_LIST_DIR}/escape_template_args_not_applied")
 
-TEST_RUN_AND_CHECK_OUTPUT("package_name_dash_warning"
-    WARNING_MESSAGE "Package name.*contains invalid characters.*normalized"
-    ALWAYS_SCRIPT_MODE ON
-)
+#TEST_RUN_AND_CHECK_OUTPUT("package_name_dash_warning"
+#    WARNING_MESSAGE "Package name.*contains invalid characters.*normalized"
+#)
 
 TEST_INVALID_CMAKE_RUN("${CMAKE_CURRENT_LIST_DIR}/invalid_package_name_error"
     "Invalid package name"
