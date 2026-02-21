@@ -1,0 +1,25 @@
+##
+# Test: output_var is set to the cache path returned by CMLIB_DEPENDENCY
+#
+# Verifies that BA_PACKAGE sets the output_var to the path returned
+# by CMLIB_DEPENDENCY's OUTPUT_PATH_VAR.
+#
+IF(NOT DEFINED CMAKE_SCRIPT_MODE_FILE)
+    CMAKE_MINIMUM_REQUIRED(VERSION 3.21)
+    PROJECT(TEST_BA_PACKAGE_OUTPUT_VAR_SET)
+ENDIF()
+
+FIND_PACKAGE(CMLIB REQUIRED)
+
+INCLUDE("${CMAKE_CURRENT_LIST_DIR}/../../include_general.cmake")
+
+SET(CMAKE_BUILD_TYPE "Release")
+BA_PACKAGE_VARS_SET(REVISION "main")
+BA_PACKAGE_VARS_SET(URI_TEMPLATE "https://example.com/<REVISION>/<GIT_PATH>/<PACKAGE_GROUP_NAME>/<ARCHIVE_NAME>")
+BA_PACKAGE_VARS_SET(GIT_PATH_TEMPLATE "")
+
+BA_PACKAGE(mypkg v1.0.0 "" "" output_path)
+
+TEST_VAR_DEFINED(output_path)
+TEST_VAR_EQUALS_LITERAL(output_path "/mock/cache/path")
+

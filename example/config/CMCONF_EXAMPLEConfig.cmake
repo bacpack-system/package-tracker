@@ -13,12 +13,12 @@ CMCONF_INIT_SYSTEM(EXAMPLE)
 CMCONF_SET(BA_PACKAGE_LOCAL_USE OFF)
 CMCONF_SET(BA_PACKAGE_LOCAL_PATH "<path_to_local_repo>")
 
-INCLUDE("${CMAKE_CURRENT_LIST_DIR}/credentials.cmake")
-CMCONF_SET(BA_PACKAGE_HTTP_AUTHORIZATION_HEADER "${credentials}")
-
 #
 # It works for a publicly accessible repository.
 #
+CMCONF_SET(BA_PACKAGE_GIT_ARCHIVE_PATH_TEMPLATE "")
+CMCONF_SET(BA_PACKAGE_HTTP_HEADER "")
+CMCONF_SET(BA_PACKAGE_TEMPLATE_ARGS_URI_ESCAPE OFF)
 CMCONF_SET(BA_PACKAGE_URI_REVISION main)
 CMCONF_SET(BA_PACKAGE_URI_TEMPLATE_REMOTE "https://gitea.example.com/username/repository/media/<REVISION>/package/<GIT_PATH>/<PACKAGE_GROUP_NAME>/<ARCHIVE_NAME>")
 
@@ -31,11 +31,14 @@ CMCONF_SET(BA_PACKAGE_URI_TEMPLATE_REMOTE "https://gitea.example.com/username/re
 # Gitea hosted private Package Repository.
 # Do not forget to specify Access Token
 #
-#CMCONF_SET(BA_PACKAGE_HTTP_AUTHORIZATION_HEADER "token <token>")
+#CMCONF_SET(BA_PACKAGE_HTTP_HEADER "Authorization: token <token>")
 #CMCONF_SET(BA_PACKAGE_URI_TEMPLATE_REMOTE "https://gitea.example.com/username/repository/raw/<REVISION>/package/<GIT_PATH>/<PACKAGE_GROUP_NAME>/<ARCHIVE_NAME>")
 
 #
 # Gitlab hosted private Package Repository.
+# gitlab_project_id is the id of the project in Gitlab. It can be found in General setting page of the project
 #
-#CMCONF_SET(BA_PACKAGE_HTTP_AUTHORIZATION_HEADER "Bearer <token>")
-#CMCONF_SET(BA_PACKAGE_URI_TEMPLATE_REMOTE "https://gitlab.example.com/username/repository/-/raw/<REVISION>/package/<GIT_PATH>/<PACKAGE_GROUP_NAME>/<ARCHIVE_NAME>")
+#SET(gitlab_project_id 000)
+#CMCONF_SET(BA_PACKAGE_TEMPLATE_ARGS_URI_ESCAPE ON)
+#CMCONF_SET(BA_PACKAGE_HTTP_HEADER "PRIVATE-TOKEN: $ENV{GITLAB_TOKEN}")
+#CMCONF_SET(BA_PACKAGE_URI_TEMPLATE_REMOTE "https://gitlab.example.com/api/v4/projects/${gitlab_project_id}/repository/files/package%2F<GIT_PATH>%2F<PACKAGE_GROUP_NAME>%2F<ARCHIVE_NAME>/raw?ref=<REVISION>&lfs=true")
