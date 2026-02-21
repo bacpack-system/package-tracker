@@ -16,6 +16,9 @@ TEST_RUN("${CMAKE_CURRENT_LIST_DIR}/no_git_args_without_template")
 TEST_RUN("${CMAKE_CURRENT_LIST_DIR}/cache_only_skips_dependency")
 TEST_RUN("${CMAKE_CURRENT_LIST_DIR}/escape_template_args_applied")
 TEST_RUN("${CMAKE_CURRENT_LIST_DIR}/escape_template_args_not_applied")
+TEST_RUN("${CMAKE_CURRENT_LIST_DIR}/output_var_set")
+TEST_RUN("${CMAKE_CURRENT_LIST_DIR}/archive_type_zip")
+TEST_RUN("${CMAKE_CURRENT_LIST_DIR}/empty_revision")
 
 #TEST_RUN_AND_CHECK_OUTPUT("package_name_dash_warning"
 #    WARNING_MESSAGE "Package name.*contains invalid characters.*normalized"
