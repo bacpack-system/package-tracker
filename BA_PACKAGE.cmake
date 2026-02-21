@@ -21,7 +21,7 @@ FIND_PACKAGE(CMLIB COMPONENTS CMUTIL CMDEF)
 #
 # OUTPUT_PATH_VAR - name of the variable where the absolute path of the package root will be stored. 
 #
-# Wrapper arounf BA_PACKAGE
+# Wrapper around BA_PACKAGE
 # - adds package path to CMAKE_PREFIX_PATH
 # - propagates output variables
 # - manage prefixes and suffixes
@@ -79,7 +79,7 @@ ENDFUNCTION()
 #
 # OUTPUT_PATH_VAR - name of the variable where the absolute path of the package root will be stored. 
 #
-# Wrapper arounf BA_PACKAGE
+# Wrapper around BA_PACKAGE
 # - adds package path to CMAKE_PREFIX_PATH
 # - propagates output variables
 # - manage prefixes and suffixes
@@ -128,7 +128,7 @@ ENDFUNCTION()
 ##
 #
 # Download, cache and populate package represented by 'package_name'
-# and concretized by 'prefix' and 'suffix'.
+# and concertized by 'prefix' and 'suffix'.
 #
 # <function>(
 #   <package_name>
@@ -201,7 +201,7 @@ FUNCTION(BA_PACKAGE package_name version_tag prefix suffix output_var)
         MESSAGE(FATAL_ERROR "Invalid package name: ${package_name}")
     ENDIF()
 
-    # Not sure if this is usefull? In production it feels weird.
+    # Not sure if this is useful? In production it feels weird.
     # The only reason is to not have accidental collisions.... 
     #IF(NOT (package_name_upper STREQUAL package_name_upper_orig))
     #    MESSAGE(WARNING "Package name ${package_name} contains invalid characters. It was normalized to form a proper CMLIB cache keyword: ${package_name} --> ${package_name_upper}")
@@ -277,7 +277,7 @@ ENDFUNCTION()
 
 ## Helper
 #
-# Print preformatted message
+# Print reformatted message
 #
 # <function>(
 #   <action> <message>
