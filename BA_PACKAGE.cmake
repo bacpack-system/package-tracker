@@ -160,25 +160,23 @@ FUNCTION(BA_PACKAGE package_name version_tag prefix suffix output_var)
 
     BA_PACKAGE_VARS_GET(REVISION revision_var)
     SET(git_path "${CMDEF_DISTRO_ID}/${CMDEF_DISTRO_VERSION_ID}/${machine}")
-    BA_PACKAGE_VARS_GET(ESCAPE_TEMPLATE_ARGS escape_template_args)
-    IF(escape_template_args)
-        _BA_PACKAGE_URL_ENCODE("${revision_var}"   revision_var)
-        _BA_PACKAGE_URL_ENCODE("${git_path}"       git_path)
-        _BA_PACKAGE_URL_ENCODE("${package_string}" package_string)
-        _BA_PACKAGE_URL_ENCODE("${package_name}"   package_name)
-    ENDIF()
+
+    _BA_PACKAGE_URL_ENCODE_IF_ENABLED("${revision_var}"   revision_var_norm)
+    _BA_PACKAGE_URL_ENCODE_IF_ENABLED("${git_path}"       git_path_norm)
+    _BA_PACKAGE_URL_ENCODE_IF_ENABLED("${package_string}" package_string_norm)
+    _BA_PACKAGE_URL_ENCODE_IF_ENABLED("${package_name}"   package_name_norm)
 
     SET(revision_arg)
-    IF(revision_var)
-        SET(revision_arg REVISION "${revision_var}")
+    IF(revision_var_norm)
+        SET(revision_arg REVISION "${revision_var_norm}")
     ENDIF()
 
     BA_PACKAGE_VARS_GET(URI_TEMPLATE template_var)
     CMLIB_STORAGE_TEMPLATE_INSTANCE(remote_file template_var
         ${revision_arg}
-        GIT_PATH "${git_path}"
-        ARCHIVE_NAME "${package_string}"
-        PACKAGE_GROUP_NAME "${package_name}"
+        GIT_PATH "${git_path_norm}"
+        ARCHIVE_NAME "${package_string_norm}"
+        PACKAGE_GROUP_NAME "${package_name_norm}"
     )
 
     SET(git_archive_path_arg)
@@ -187,9 +185,9 @@ FUNCTION(BA_PACKAGE package_name version_tag prefix suffix output_var)
     IF(git_path_template_var)
         CMLIB_STORAGE_TEMPLATE_INSTANCE(git_archive_path git_path_template_var
             ${revision_arg}
-            GIT_PATH "${git_path}"
-            ARCHIVE_NAME "${package_string}"
-            PACKAGE_GROUP_NAME "${package_name}"
+            GIT_PATH "${git_path_norm}"
+            ARCHIVE_NAME "${package_string_norm}"
+            PACKAGE_GROUP_NAME "${package_name_norm}"
         )
         SET(git_revision_arg     GIT_REVISION "${revision_var}")
         SET(git_archive_path_arg GIT_PATH "${git_archive_path}")
@@ -245,12 +243,18 @@ ENDFUNCTION()
 ## Helper
 #
 # Percent-encode characters that are not allowed in URI components.
+# Encoding is only performed when ESCAPE_TEMPLATE_ARGS is ON/True.
 #
 # <function>(
 #   <input> <output_var>
 # )
 #
-FUNCTION(_BA_PACKAGE_URL_ENCODE input output)
+FUNCTION(_BA_PACKAGE_URL_ENCODE_IF_ENABLED input output)
+    BA_PACKAGE_VARS_GET(ESCAPE_TEMPLATE_ARGS _escape_enabled)
+    IF(NOT _escape_enabled)
+        SET(${output} "${input}" PARENT_SCOPE)
+        RETURN()
+    ENDIF()
     SET(result "${input}")
     STRING(REPLACE "%" "%25" result "${result}")
     STRING(REPLACE " " "%20" result "${result}")
