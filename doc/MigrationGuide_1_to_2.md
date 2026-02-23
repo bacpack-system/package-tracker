@@ -25,6 +25,7 @@ SET(STORAGE_LIST_DEP_REVISION "v1.0.2")
 
 Steps:
 
+- Update [cmakelib] to version v1.3.3
 - Rename `BA_PACKAGE_HTTP_AUTHORIZATION_HEADER` to `BA_PACKAGE_HTTP_HEADER` in the CMCONF Config file.
   Prepend `Authorization: ` to the value:
 

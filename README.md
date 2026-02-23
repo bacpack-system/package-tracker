@@ -79,6 +79,12 @@ BA_PACKAGE_LIBRARY(nlohmann-json v3.10.5)
 
 ## FAQ
 
+### Q: I want to migrate to newest version of Package tracker
+
+- see [doc/MigrationGuide_0_to_1.md]
+- see [doc/MigrationGuide_1_to_2.md]
+
+
 ### Q: Package not found even if it exists in the repository
 
 - Ensure the package was built for your platform (CMDEF_DISTRO_ID, CMDEF_DISTRO_VERSION_ID, CMDEF_ARCHITECTURE).
