@@ -3,6 +3,8 @@
 
 It describes how to migrate CMake projects for use with Package Tracker `v2.0.0`.
 
+
+
 ## Changes
 
 - `BA_PACKAGE_HTTP_AUTHORIZATION_HEADER` CMCONF variable renamed to `BA_PACKAGE_HTTP_HEADER`.
@@ -65,7 +67,6 @@ CMCONF_SET(BA_PACKAGE_URI_TEMPLATE_REMOTE "https://gitea.example.com/username/re
 Examples for different Package Repository hosting services and authentication methods can be found in [example/], [example-project] and [example-context]
 
 
-[CMCONF Global Config]: ./GlobalConfiguration.md
 [CMLibStorage.cmake]: ../example/CMLibStorage.cmake
 [example/]: ../example/
 [cmakelib]: https://github.com/cmakelib/cmakelib
