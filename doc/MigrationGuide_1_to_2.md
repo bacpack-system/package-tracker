@@ -29,8 +29,8 @@ Steps:
 
 - Update [cmakelib] to version v1.3.3
 - Rename `BA_PACKAGE_HTTP_AUTHORIZATION_HEADER` to `BA_PACKAGE_HTTP_HEADER` in the CMCONF Config file.
-  Prepend `Authorization: ` to the value:
 
+- If HTTP Header is used, prepend `Authorization: ` to the value:
   ```cmake
   # v1
   CMCONF_SET(BA_PACKAGE_HTTP_AUTHORIZATION_HEADER "token <token>")
