@@ -5,33 +5,34 @@
 ```mermaid
 flowchart TD
     subgraph CMDEF_VARS["CMDEF_VARS.cmake (constants)"]
-        ARCH["CMDEF_ARCHITECTURE\n= 'mock_arch'"]
-        DISTRO["CMDEF_DISTRO_ID\n= 'mock_distro'"]
-        VER["CMDEF_DISTRO_VERSION_ID\n= '0.0.0'"]
+        ARCH["CMDEF_ARCHITECTURE\n= mock_arch"]
+        DISTRO["CMDEF_DISTRO_ID\n= mock_distro"]
+        VER["CMDEF_DISTRO_VERSION_ID\n= 0.0.0"]
     end
 
     subgraph CMUTIL["CMUTIL.cmake"]
+        direction LR
         CMUTIL_CFG["config: MOCK_CMUTIL_PLATFORM_STRING\n(optional override)"]
-        CMUTIL_CAP["captured: MOCK_CMUTIL_PLATFORM_STRING_CONSTRUCT_CALLED"]
+        CMUTIL_CAP["captured: MOCK_CMUTIL_PLATFORM_STRING\n_CONSTRUCT_CALLED"]
     end
 
     subgraph BA["BA_PACKAGE (production code)"]
         PLAT["platform_string"]
-        PKG["package_string\n= {prefix}{name}{suffix}_{version}_{platform}.zip"]
-        GIT["git_path\n= {DISTRO_ID}/{VERSION_ID}/{ARCH}"]
-        KW["keywords\n= BACPACK;{NAME};{BUILD_TYPE}"]
+        PKG["package_string"]
+        GIT["git_path"]
+        KW["keywords"]
         RF["remote_file"]
     end
 
     subgraph STORAGE["CMLIB_STORAGE.cmake"]
-        ST_CFG["config: MOCK_CMLIB_STORAGE_TEMPLATE_INSTANCE_OUTPUT\n(optional override, default: mock URL)"]
-        ST_CALLED["captured: MOCK_CMLIB_STORAGE_TEMPLATE_INSTANCE_CALLED"]
-        ST_TVAR["captured: MOCK_CMLIB_STORAGE_TEMPLATE_INSTANCE_TEMPLATE_VAR"]
-        ST_TVAL["captured: MOCK_CMLIB_STORAGE_TEMPLATE_INSTANCE_TEMPLATE_VALUE"]
-        ST_AN["captured: MOCK_CMLIB_STORAGE_TEMPLATE_INSTANCE_ARCHIVE_NAME"]
-        ST_GP["captured: MOCK_CMLIB_STORAGE_TEMPLATE_INSTANCE_GIT_PATH"]
-        ST_REV["captured: MOCK_CMLIB_STORAGE_TEMPLATE_INSTANCE_REVISION"]
-        ST_PGN["captured: MOCK_CMLIB_STORAGE_TEMPLATE_INSTANCE_PACKAGE_GROUP_NAME"]
+        ST_CFG["config: MOCK_CMLIB_STORAGE\n_TEMPLATE_INSTANCE_OUTPUT\n(default: mock URL)"]
+        ST_CALLED["captured: MOCK_CMLIB_STORAGE\n_TEMPLATE_INSTANCE_CALLED"]
+        ST_TVAR["captured: MOCK_CMLIB_STORAGE\n_TEMPLATE_INSTANCE_TEMPLATE_VAR"]
+        ST_TVAL["captured: MOCK_CMLIB_STORAGE\n_TEMPLATE_INSTANCE_TEMPLATE_VALUE"]
+        ST_AN["captured: MOCK_CMLIB_STORAGE\n_TEMPLATE_INSTANCE_ARCHIVE_NAME"]
+        ST_GP["captured: MOCK_CMLIB_STORAGE\n_TEMPLATE_INSTANCE_GIT_PATH"]
+        ST_REV["captured: MOCK_CMLIB_STORAGE\n_TEMPLATE_INSTANCE_REVISION"]
+        ST_PGN["captured: MOCK_CMLIB_STORAGE\n_TEMPLATE_INSTANCE_PACKAGE_GROUP_NAME"]
     end
 
     subgraph DEP["CMLIB_DEPENDENCY.cmake"]
@@ -44,8 +45,8 @@ flowchart TD
         DEP_GPATH["captured: MOCK_CMLIB_DEPENDENCY_GIT_PATH"]
     end
 
-    subgraph CACHE["CMLIB_CACHE.cmake (CACHE_ONLY path)"]
-        CA_CFG["config: MOCK_CMLIB_CACHE_GET_RETURN_PATH\n(empty = cache miss)"]
+    subgraph CACHE["CMLIB_CACHE.cmake (CACHE_ONLY)"]
+        CA_CFG["config: MOCK_CMLIB_CACHE\n_GET_RETURN_PATH\n(empty = cache miss)"]
         CA_CALLED["captured: MOCK_CMLIB_CACHE_GET_CALLED"]
         CA_KW["captured: MOCK_CMLIB_CACHE_GET_KEYWORDS"]
     end
@@ -69,6 +70,8 @@ flowchart TD
     KW --> DEP_KW
     KW --> CA_KW
 ```
+
+> **Legend:** "config:" = variable set by test before calling production code, "captured:" = variable set by mock during execution.
 
 ## Variable Categories
 
