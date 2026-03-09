@@ -17,8 +17,20 @@ The test consists of Test Application located in 'app/' directory.
 
 In the \<git_root>test/ directory run
 
-```cmake
-cmake -P ./run_tests.cmake
+```bash
+cmake -DTEST_WITH_DESTDIR=OFF -P ./run_app_tests.cmake
+cmake -DTEST_WITH_DESTDIR=ON  -P ./run_app_tests.cmake
+
+cmake -DINVALID_VAR_TEST=OFF -P ./run_vars_test.cmake
+
+# It shall fail - return code shall not be 0!
+cmake -DINVALID_VAR_TEST=ON -P ./run_vars_test.cmake
+```
+
+or run all tests in one batch by running
+
+```bash
+./run_tests.sh
 ```
 
 ## Test application architecture
