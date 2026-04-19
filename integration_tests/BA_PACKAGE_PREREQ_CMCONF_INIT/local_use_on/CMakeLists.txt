@@ -1,0 +1,28 @@
+## BA_PACKAGE_LOCAL_USE=ON returns local file:// template and empty revision
+#
+IF(NOT DEFINED CMAKE_SCRIPT_MODE_FILE)
+    CMAKE_MINIMUM_REQUIRED(VERSION 3.21)
+    PROJECT(TEST_LOCAL_USE_ON)
+ENDIF()
+
+FIND_PACKAGE(CMLIB REQUIRED)
+
+INCLUDE("${CMAKE_CURRENT_LIST_DIR}/../../VARS.cmake")
+INCLUDE("${CMAKE_TESTS_ROOT}/TEST.cmake")
+
+SET(TEST_CMCONF_BA_PACKAGE_LOCAL_USE ON)
+SET(TEST_CMCONF_BA_PACKAGE_LOCAL_PATH "/tmp")
+
+INCLUDE("${CMAKE_TESTS_ROOT}/mock/CMCONF.cmake")
+INCLUDE("${PACKAGER_PROJECT_ROOT}/helpers/BA_PACKAGE_PREREQ.cmake")
+
+UNSET(ENV{BA_PACKAGE_LOCAL_PATH})
+
+BA_PACKAGE_PREREQ_CMCONF_INIT(result_template result_revision result_git_archive_path result_http_header result_escape)
+
+TEST_VAR_EQUALS_LITERAL(result_template "file:///tmp/package/<GIT_PATH>/<PACKAGE_GROUP_NAME>/<ARCHIVE_NAME>")
+TEST_VAR_EQUALS_LITERAL(result_revision "")
+TEST_VAR_EQUALS_LITERAL(result_git_archive_path "")
+TEST_VAR_EQUALS_LITERAL(result_http_header "")
+TEST_VAR_EQUALS_LITERAL(result_escape "")
+

@@ -8,7 +8,7 @@
 #   be stored as INTERNAL cache variable.
 # - Every variable is stored as a CMake cache variable with name BA_PACKAGE_VARS__<var_name>.
 #   Double _ is chosen to avoid defining reserved variable names SET and GET.
-# - Every variable shall be set/get by a SetterGetter function.
+# - Every variable shall be set/get by a Setter-Getter function.
 #
 # Mechanism of Setter/Getter was chosen in order to simplify
 # future maintenance and "configuration" (in backward compatibility manner)
@@ -25,6 +25,21 @@ SET(BA_PACKAGE_VARS__REVISION "master"
 SET(BA_PACKAGE_VARS__URI_TEMPLATE "NonExistentPath"
     CACHE INTERNAL
     "Storage URI template used to construct the package download URI"
+)
+
+SET(BA_PACKAGE_VARS__GIT_PATH_TEMPLATE "NonExistentPath"
+    CACHE INTERNAL
+    "Git path template to use. If non empty the URI_TEMPLATE represents remote Git repository. Takes same template params as URI_TEMPLATE."
+)
+
+SET(BA_PACKAGE_VARS__HTTP_HEADER "NonExistentHTTPHEADER"
+    CACHE INTERNAL
+    "HTTP header to use when accessing Package Repository over HTTP."
+)
+
+SET(BA_PACKAGE_VARS__ESCAPE_TEMPLATE_ARGS OFF
+    CACHE INTERNAL
+    "Escape template arguments when constructing the package download URI"
 )
 
 

@@ -1,0 +1,139 @@
+#
+# We copy pre_run library to the lib/ directory, delete all content of pre_run directory
+# and make soname symlink to pre_run library in the lib/ directory
+#
+
+FUNCTION(TEST_POST_TARGET_SETUP target)
+ENDFUNCTION()
+
+#
+# More documentation can be found inside the README
+#
+# Expected generated dependency set structure:
+#
+# ${DEPENDENCY_INSTALL_DIR}
+#   ├── include
+#   │   └── shared_out_of_dir_symlink.h
+#   └── lib
+#       ├── cmake
+#       │   └── shared-library-shared
+#       │       ├── shared-library-shared.cmake
+#       │       ├── shared-library-sharedConfig.cmake
+#       │       ├── shared-library-sharedConfigVersion.cmake
+#       │       └── shared-library-shared-release.cmake
+#       ├── libshared-library-for-prerun-shared.so.1.2.3
+#       ├── libshared-library-shared.so -> libshared-library-shared.so.5.67.1
+#       ├── libshared-library-shared.so.5.67.1
+#       └── shared-library-for-prerun
+#           └── libshared-library-for-prerun-shared.so.1.2.3 -> <INSTALL_DIR>/DependencyRoot/lib/shared-library-for-prerun/../libshared-library-for-prerun-shared.so.1.2.3
+#
+FUNCTION(TEST_PRERUN)
+    CMLIB_PARSE_ARGUMENTS(
+        ONE_VALUE
+            VERSION INSTALL_DIR
+            LIBRARY_NAME
+        REQUIRED
+            VERSION INSTALL_DIR
+            LIBRARY_NAME
+        P_ARGN ${ARGN}
+    )
+
+    MESSAGE(STATUS "Adjusting symlinks")
+
+    SET(library_name         "${__LIBRARY_NAME}")
+    SET(version              "${__VERSION}")
+    SET(library_soname       lib${library_name}.so.${version})
+    SET(link_soname          lib${library_name}.so)
+    SET(install_dir          ${__INSTALL_DIR})
+    SET(link_filepath        ${__INSTALL_DIR}/${link_soname})
+    SET(library_filepath     ${__INSTALL_DIR}/${library_soname})
+    SET(new_library_filepath ${__INSTALL_DIR}/../${library_soname})
+    EXECUTE_PROCESS(
+        COMMAND ${CMAKE_COMMAND} -E copy "${library_filepath}" "${new_library_filepath}"
+        RESULT_VARIABLE result
+        WORKING_DIRECTORY "${install_dir}/"
+    )
+    IF(NOT result EQUAL 0)
+        MESSAGE(FATAL_ERROR "cannot copy file ${library_filepath} --> ${new_library_filepath}")
+    ENDIF()
+    EXECUTE_PROCESS(
+        COMMAND ${CMAKE_COMMAND} -E rm -f "${library_filepath}"
+        RESULT_VARIABLE result
+        WORKING_DIRECTORY "${install_dir}/"
+    )
+    IF(NOT result EQUAL 0)
+        MESSAGE(FATAL_ERROR "cannot remove file -f ${library_filepath}")
+    ENDIF()
+    EXECUTE_PROCESS(
+        COMMAND ${CMAKE_COMMAND} -E rm -f "${link_filepath}"
+        RESULT_VARIABLE result
+        WORKING_DIRECTORY "${install_dir}/"
+    )
+    IF(NOT result EQUAL 0)
+        MESSAGE(FATAL_ERROR "cannot remove file ${link_filepath}")
+    ENDIF()
+    EXECUTE_PROCESS(
+        COMMAND ${CMAKE_COMMAND} -E create_symlink "${new_library_filepath}" ${library_filepath}
+        RESULT_VARIABLE result
+        WORKING_DIRECTORY "${install_dir}/"
+    )
+    IF(NOT result EQUAL 0)
+        MESSAGE(FATAL_ERROR "cannot symlink")
+    ENDIF()
+ENDFUNCTION()
+
+
+
+#
+# Documentation can be found inside the README
+#
+# Expected installed app structure
+#
+#
+MACRO(TEST_PRERUN_GET_EXPECTED_DEPENDENCY_FILE_LIST list_var)
+    LIST(APPEND ${list_var}
+        "lib/cmake/shared-library-shared/shared-library-sharedConfig.cmake"
+        "lib/cmake/shared-library-shared/shared-library-sharedConfigVersion.cmake"
+        "lib/cmake/shared-library-shared/shared-library-shared.cmake"
+        "lib/cmake/shared-library-shared/shared-library-shared-release.cmake"
+        "include/shared_out_of_dir_symlink.h"
+        "lib/libshared-library-for-prerun-shared.so.1.2.3"
+        "lib/libshared-library-shared.so"
+        "lib/libshared-library-shared.so.5.67.1"
+        "lib/shared-library-for-prerun/libshared-library-for-prerun-shared.so.1.2.3"
+    )
+ENDMACRO()
+
+
+
+#
+# Documentation can be found inside the README
+#
+# Expected installed app structure
+#
+# ${INSTALL_DIR}
+#   ├── bin
+#   │   └── MyTestApp
+#   └── lib
+#       ├── cmake
+#       │   └── MyTestApp
+#       │       ├── MyTestApp.cmake
+#       │       ├── MyTestAppConfig.cmake
+#       │       ├── MyTestAppConfigVersion.cmake
+#       │       └── MyTestApp-release.cmake
+#       ├── libshared-library-for-prerun-shared.so.1.2.3
+#       ├── libshared-library-shared.so -> libshared-library-shared.so.5.67.1
+#       └── libshared-library-shared.so.5.67.1
+#
+MACRO(TEST_GET_EXPECTED_INSTALLED_FILES_LIST list_var)
+    LIST(APPEND ${list_var}
+        "bin/MyTestApp"
+        "lib/cmake/MyTestApp/MyTestApp.cmake"
+        "lib/cmake/MyTestApp/MyTestAppConfig.cmake"
+        "lib/cmake/MyTestApp/MyTestAppConfigVersion.cmake"
+        "lib/cmake/MyTestApp/MyTestApp-release.cmake"
+        "lib/libshared-library-for-prerun-shared.so.1.2.3"
+        "lib/libshared-library-shared.so"
+        "lib/libshared-library-shared.so.5.67.1"
+    )
+ENDMACRO()
