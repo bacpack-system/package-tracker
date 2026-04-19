@@ -10,7 +10,7 @@ Each test is a standalone CMakeLists.txt in its own subdirectory.
 From repository root:
 
 ```
-cmake -P cmake_tests/CMakeLists.txt
+cmake -P integration_tests/CMakeLists.txt
 ```
 
 ## Mocks
